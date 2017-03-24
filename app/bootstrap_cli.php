@@ -3,8 +3,10 @@
 use Phalcon\Di\FactoryDefault\Cli as FactoryDefault;
 use Phalcon\Cli\Console as ConsoleApp;
 
+define("DS", DIRECTORY_SEPARATOR);
 define('BASE_PATH', dirname(__DIR__));
 define('APP_PATH', BASE_PATH . '/app');
+define('CORE_PATH', APP_PATH . '/core');
 
 /**
  * The FactoryDefault Dependency Injector automatically registers the services that
@@ -23,9 +25,13 @@ include APP_PATH . '/config/services.php';
 include APP_PATH . '/config/services_cli.php';
 
 /**
- * Include Autoloader
+ * Include Autoloader global
  */
 include APP_PATH . '/config/loader.php';
+/**
+ * Include Autoloader
+ */
+include APP_PATH . '/config/loader_cli.php';
 
 /**
  * Get config service for use in inline setup below
@@ -41,7 +47,7 @@ $console = new ConsoleApp($di);
  * Register console modules
  */
 $console->registerModules([
-    'cli' => ['className' => 'Magecon\Modules\Cli\Module']
+    'cli' => ['className' => 'Magecon\Cli\Module']
 ]);
 
 /**

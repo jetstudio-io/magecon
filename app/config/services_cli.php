@@ -7,6 +7,6 @@ use Phalcon\Cli\Dispatcher;
 */
 $di->setShared('dispatcher', function() {
     $dispatcher = new Dispatcher();
-    $dispatcher->setDefaultNamespace('Magecon\Modules\Cli\Tasks');
+    $dispatcher->setDefaultNamespace('Magecon\Cli\Tasks');
     return $dispatcher;
 });

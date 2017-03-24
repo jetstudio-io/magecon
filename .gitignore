@@ -2,3 +2,5 @@
 cache
 var
 public/webtools.config.php
+.phalcon
+public/assets
