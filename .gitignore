@@ -4,3 +4,4 @@ var
 public/webtools.config.php
 .phalcon
 public/assets
+app/config/config.php
