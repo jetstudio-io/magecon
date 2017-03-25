@@ -1,43 +1,33 @@
 <?php
 
 use Phalcon\Loader;
+use Phalcon\Cli\Console as ConsoleApp;
 
 $loader = new Loader();
 
-$namespaces = [];
-
-/**
- * Register core module
- */
-$namespaces['Magecon'] = CORE_PATH . DS . 'Magecon';
-
-/**
- * Register namespace for all library in
- * app/common/library
- */
-$libraryPath = APP_PATH . '/common/library';
-$libraryDir = opendir($libraryPath);
-while ($dir = readdir($libraryDir)) {
-    if (strpos($dir, ".") === false && is_dir($libraryPath . DS . $dir)) {
-        $namespace = ucfirst(strtolower($dir));
-        $namespaces[$namespace] = $libraryPath . DS . $dir;
-    }
-}
-
-$loader->registerNamespaces($namespaces);
-
-/**
- * Register module classes
- *
-$loader->registerClasses([
-    'Magecon\Modules\Frontend\Module' => APP_PATH . '/modules/frontend/Module.php',
-    'Magecon\Modules\Cli\Module'      => APP_PATH . '/modules/cli/Module.php'
-]);
-*/
+$config = $di->get('config');
 $classes = [];
-foreach ($application->getModules() as $key => $module) {
-    $classes[$module['className']] = $module['path'];
+foreach ($config->cli->module as $module) {
+    $classes[$module['class']] = APP_PATH . DS . $module['path'];
 }
 $loader->registerClasses($classes);
 
 $loader->register();
+
+$modules = [];
+foreach ($config->cli->module as $module) {
+    $modules[$module['name']] =[
+        'className' => $module['class']
+    ];
+}
+
+/**
+ * Create a console application
+ */
+$console = new ConsoleApp($di);
+
+/**
+ * Register console modules
+ */
+$console->registerModules($modules);
+$console->setDefaultModule('cli');

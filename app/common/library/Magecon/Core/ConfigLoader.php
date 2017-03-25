@@ -55,12 +55,18 @@ class ConfigLoader {
         $globalConfig = $di->get('config');
         $configDir = opendir($configPath);
         while ($file = readdir($configDir)) {
-            if (strpos($file, ".") === false && is_file($configPath . DS . $file) && self::_isConfigFile($file)) {
-                $config = self::_getConfig($configPath . DS . $file);
+            if (is_file($configPath . $file) && self::_isConfigFile($file)) {
+                $config = self::_getConfig($configPath . $file);
                 if (isset($config->module)) {
                     $module = $config->module;
                     unset($config->module);
-                    $globalConfig->cli->module[$module->name] = $module;
+                    foreach ($module->areas as $area) {
+                        if (!isset($globalConfig->{$area})) {
+                            $globalConfig->{$area} = new PhalconConfig(['module' => [$module->name => $module]]);
+                        } else {
+                            $globalConfig->{$area}->module[$module->name] = $module;
+                        }
+                    }
                 }
                 $globalConfig->merge($config);
             }
@@ -76,7 +82,7 @@ class ConfigLoader {
      */
     protected static function _isConfigFile($filename) {
         if (($match = preg_match("/^[A-Z]([^_]*)_[A-Z]([^_]*)\.([^.]*)$/", $filename, $filepart))) {
-            $extension = $filepart[4];
+            $extension = $filepart[3];
             if (!in_array($extension, self::ALLOW_EXTENSION)) {
                 return false;
             }

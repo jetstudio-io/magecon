@@ -21,34 +21,26 @@
  */
 
 /**
+ * @author NGUYEN Van Thiep
  * Date: 24/03/2017
- * Time: 15:38
+ * Time: 16:43
  */
 
-namespace Magecon\Cli\Tasks;
+namespace Magecon\Core;
 
-use Magecon\Cms\Model\Block;
-use Phalcon\Cli\Task;
+use Phalcon\Di\FactoryDefault;
 
 /**
- * Automatically take model metadata and update table
- * Command:
- * php run migration:action
- * Class MigrationTask
- * @package Magecon\Cli
+ * Moduel auto-registration
+ * Class ModuleRegister
+ * @package Magecon\Core
  */
-
-class MigrationTask extends Task {
-
-    /**
-     *
-     */
-    public function mainAction() {
-        $block = new Block();
-        print_r($block->getModelsMetaData());
+class ModuleRegister {
+    public static function register(FactoryDefault $di) {
     }
 
-    public function updateAction() {
-        echo "in update action\n";
+    //
+    protected static function _coreRegister() {
+
     }
 }

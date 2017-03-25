@@ -19,8 +19,7 @@ class Module implements ModuleDefinitionInterface
         $loader = new Loader();
 
         $loader->registerNamespaces([
-            'Magecon\Modules\Core\Controllers' => __DIR__ . '/controllers/',
-            'Magecon\Modules\Core\Models' => __DIR__ . '/models/',
+            'Magecon\Adminhtml\Controllers' => __DIR__ . '/controllers/',
         ]);
 
         $loader->register();

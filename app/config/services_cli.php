@@ -10,3 +10,9 @@ $di->setShared('dispatcher', function() {
     $dispatcher->setDefaultNamespace('Magecon\Cli\Tasks');
     return $dispatcher;
 });
+
+/**
+ * Set the output service
+ */
+
+$di->setShared('output', new Magecon\Core\Output());

@@ -21,34 +21,18 @@
  */
 
 /**
+ * @author NGUYEN Van Thiep
  * Date: 24/03/2017
- * Time: 15:38
+ * Time: 16:07
  */
 
-namespace Magecon\Cli\Tasks;
+return new \Phalcon\Config([
+    'module' => [
+        'name'  => 'cms',
+        'class' => 'Magecon\Cms\Module',
+        'path'  => 'core/Magecon/Cms/Module.php',
+        'version' => '1.0',
+        'areas' => ['cli']
+    ],
 
-use Magecon\Cms\Model\Block;
-use Phalcon\Cli\Task;
-
-/**
- * Automatically take model metadata and update table
- * Command:
- * php run migration:action
- * Class MigrationTask
- * @package Magecon\Cli
- */
-
-class MigrationTask extends Task {
-
-    /**
-     *
-     */
-    public function mainAction() {
-        $block = new Block();
-        print_r($block->getModelsMetaData());
-    }
-
-    public function updateAction() {
-        echo "in update action\n";
-    }
-}
+]);

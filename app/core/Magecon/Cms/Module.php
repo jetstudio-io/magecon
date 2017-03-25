@@ -20,26 +20,35 @@
  * SOFTWARE.
  */
 
-/**
- * @author NGUYEN Van Thiep
- * Date: 24/03/2017
- * Time: 16:43
- */
+namespace Magecon\Cms;
 
-namespace Magecon\Core;
+use Phalcon\DiInterface;
+use Phalcon\Loader;
+use Phalcon\Mvc\ModuleDefinitionInterface;
 
-/**
- * Moduel auto-registration
- * Class ModuleRegister
- * @package Magecon\Core
- */
-class ModuleRegister {
-    public static function register() {
+class Module implements ModuleDefinitionInterface
+{
+    /**
+     * Registers an autoloader related to the module
+     *
+     * @param DiInterface $di
+     */
+    public function registerAutoloaders(DiInterface $di = null)
+    {
+        $loader = new Loader();
 
+        $loader->registerNamespaces([
+            'Magecon\Cms\Model' => __DIR__ . '/models/',
+        ]);
+        $loader->register();
     }
 
-    //
-    protected static function _coreRegister() {
-
+    /**
+     * Registers services related to the module
+     *
+     * @param DiInterface $di
+     */
+    public function registerServices(DiInterface $di)
+    {
     }
 }

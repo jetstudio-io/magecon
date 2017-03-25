@@ -7,9 +7,9 @@ return new \Phalcon\Config([
 
     'database' => [
         'adapter'  => 'Mysql',
-        'host'     => 'localhost',
+        'host'     => '127.0.0.1',
         'username' => 'root',
-        'password' => '',
+        'password' => 'WmCVWmnesuGcd4XC',
         'dbname'   => 'magecon',
         'charset'  => 'utf8',
     ],
