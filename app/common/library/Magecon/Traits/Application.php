@@ -1,6 +1,7 @@
 <?php
 /**
- * Copyright (c) 2017  MageCon
+ * Copyright (c) 2017 MageCon
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -19,38 +20,19 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-
 /**
- * Date: 24/03/2017
- * Time: 15:38
+ * @author Nguyen Van Thiep
+ * Date: 26/03/2017
+ * Time: 10:25
  */
 
-namespace Magecon\Cli\Tasks;
-
-use Magecon\Cms\Model\Block;
-use Phalcon\Cli\Task;
+namespace Magecon\Traits;
 
 /**
- * Automatically take model metadata and update table
- * Command:
- * php run migration:action
- * Class MigrationTask
- * @package Magecon\Cli
+ * Add function auto register other module to Phalcon\Application
+ * Class Application
+ * @package Magecon\Traits
  */
+trait Application {
 
-class MigrationTask extends Task {
-
-    /**
-     *
-     */
-    public function mainAction() {
-        $block = new Block();
-        /* @var $blockMeta \Phalcon\Mvc\Model\MetaData\Redis */
-        $blockMeta = $block->getModelsMetaData();
-        print_r($blockMeta->getDataTypes($block));
-    }
-
-    public function updateAction() {
-        echo "in update action\n";
-    }
 }

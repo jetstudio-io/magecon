@@ -1,9 +1,11 @@
 <?php
 
 use Phalcon\Loader;
-use Phalcon\Mvc\Model\Metadata\Memory as MetaDataAdapter;
+//use Phalcon\Mvc\Model\Metadata\Memory as MetaDataAdapter;
+use Phalcon\Mvc\Model\MetaData\Redis as MetaDataAdapter;
 use Phalcon\Mvc\View\Engine\Volt as VoltEngine;
 use Phalcon\Logger\Adapter\File as Logger;
+use Phalcon\Mvc\Model\MetaData\Strategy\Annotations as StrategyAnnotations;
 
 
 /**
@@ -41,7 +43,21 @@ $di->setShared('db', function () {
  * If the configuration specify the use of metadata adapter use it or use memory otherwise
  */
 $di->setShared('modelsMetadata', function () {
-    return new MetaDataAdapter();
+    $metaData = new MetaDataAdapter([
+        "host"       => "127.0.0.1",
+        "port"       => 6379,
+        "persistent" => 0,
+        "statsKey"   => "_PHCM_MM",
+        "lifetime"   => 172800,
+        "index"      => 1,
+    ]);
+
+    // Set a custom metadata database introspection
+    $metaData->setStrategy(
+        new StrategyAnnotations()
+    );
+
+    return $metaData;
 });
 
 /**

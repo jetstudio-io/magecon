@@ -41,7 +41,6 @@ class Module implements ModuleDefinitionInterface
             'Magecon\Cli\Tasks' => __DIR__ . '/tasks/',
         ]);
         $loader->register();
-        fwrite(STDOUT, "cli module\n");
     }
 
     /**

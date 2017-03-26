@@ -41,7 +41,6 @@ class Module implements ModuleDefinitionInterface
             'Magecon\Cms\Model' => __DIR__ . '/models/',
         ]);
         $loader->register();
-        fwrite(STDOUT, "cms module\n");
     }
 
     /**

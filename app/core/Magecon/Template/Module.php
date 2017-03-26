@@ -48,7 +48,6 @@ class Module implements ModuleDefinitionInterface {
             'Magecon\Template\Model' => __DIR__ . '/models/',
         ]);
         $loader->register();
-        fwrite(STDOUT, "template module\n");
     }
 
     /**
