@@ -41,6 +41,7 @@ class Module implements ModuleDefinitionInterface
             'Magecon\Cms\Model' => __DIR__ . '/models/',
         ]);
         $loader->register();
+        fwrite(STDOUT, "cms module\n");
     }
 
     /**
@@ -50,5 +51,16 @@ class Module implements ModuleDefinitionInterface
      */
     public function registerServices(DiInterface $di)
     {
+        // Registering a dispatcher
+        $di->set(
+            "dispatcher",
+            function () {
+                $dispatcher = new Dispatcher();
+
+                $dispatcher->setDefaultNamespace('Magecon\Cms\Model');
+
+                return $dispatcher;
+            }
+        );
     }
 }

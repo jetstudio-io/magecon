@@ -66,7 +66,10 @@ foreach ($argv as $k => $arg) {
         $arguments['params'][] = $arg;
     }
 }
+/** @var $dispatcher \Phalcon\CLI\Dispatcher */
+$dispatcher = $di['dispatcher'];
 
+// https://forum.phalconphp.com/discussion/4573/cli-task-not-found-when-in-namespace#C15319
 try {
 
     /**

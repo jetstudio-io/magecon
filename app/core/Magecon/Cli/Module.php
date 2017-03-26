@@ -40,8 +40,8 @@ class Module implements ModuleDefinitionInterface
         $loader->registerNamespaces([
             'Magecon\Cli\Tasks' => __DIR__ . '/tasks/',
         ]);
-
         $loader->register();
+        fwrite(STDOUT, "cli module\n");
     }
 
     /**

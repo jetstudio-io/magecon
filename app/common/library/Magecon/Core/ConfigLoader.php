@@ -62,9 +62,9 @@ class ConfigLoader {
                     unset($config->module);
                     foreach ($module->areas as $area) {
                         if (!isset($globalConfig->{$area})) {
-                            $globalConfig->{$area} = new PhalconConfig(['module' => [$module->name => $module]]);
+                            $globalConfig->{$area} = new PhalconConfig(['modules' => [$module->name => $module]]);
                         } else {
-                            $globalConfig->{$area}->module[$module->name] = $module;
+                            $globalConfig->{$area}->modules[$module->name] = $module;
                         }
                     }
                 }

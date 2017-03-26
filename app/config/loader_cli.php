@@ -1,23 +1,24 @@
 <?php
 
 use Phalcon\Loader;
-use Phalcon\Cli\Console as ConsoleApp;
+//use Phalcon\Cli\Console as ConsoleApp;
+use Magecon\Core\Console as ConsoleApp;
 
 $loader = new Loader();
 
 $config = $di->get('config');
 $classes = [];
-foreach ($config->cli->module as $module) {
+foreach ($config->cli->modules as $module) {
     $classes[$module['class']] = APP_PATH . DS . $module['path'];
 }
 $loader->registerClasses($classes);
-
 $loader->register();
 
 $modules = [];
-foreach ($config->cli->module as $module) {
+foreach ($config->cli->modules as $module) {
     $modules[$module['name']] =[
-        'className' => $module['class']
+        'className' => $module['class'],
+        'path'      => APP_PATH . DS . $module['path']
     ];
 }
 

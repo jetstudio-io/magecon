@@ -1,7 +1,6 @@
 <?php
 
 use Phalcon\Di\FactoryDefault;
-use Phalcon\Mvc\Application;
 
 error_reporting(E_ALL);
 
@@ -24,34 +23,20 @@ try {
     require APP_PATH . '/config/services.php';
 
     /**
-     * Include web environment specific services
+     * Include Autoloader
      */
-    require APP_PATH . '/config/services_web.php';
-
-    /**
-     * Get config service for use in inline setup below
-     */
-    $config = $di->getConfig();
-
-    /**
-     * Handle the request
-     */
-    $application = new Application($di);
-
-    /**
-     * Register application modules
-     */
-    $application->registerModules([
-        'frontend' => [
-            'className' => 'Magecon\Modules\Frontend\Module',
-            'path'      => APP_PATH . '/modules/frontend/Module.php'
-        ],
-    ]);
+    include APP_PATH . '/config/loader.php';
 
     /**
      * Include Autoloader
      */
-    include APP_PATH . '/config/loader.php';
+    include APP_PATH . '/config/loader_web.php';
+
+    /**
+     * Include web environment specific services
+     */
+    require APP_PATH . '/config/services_web.php';
+
 
     /**
      * Include routes

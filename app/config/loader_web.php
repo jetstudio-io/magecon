@@ -1,30 +1,29 @@
 <?php
 
 use Phalcon\Loader;
+use Phalcon\Mvc\Application;
 
 $loader = new Loader();
 
-$namespaces = [];
+$config = $di->get('config');
 
-/**
- * Register core module
- */
-$namespaces['Magecon'] = CORE_PATH . DS . 'Magecon';
-
-/**
- * Register namespace for all library in
- * app/common/library
- */
-$libraryPath = APP_PATH . '/common/library';
-$libraryDir = opendir($libraryPath);
-while ($dir = readdir($libraryDir)) {
-    if (strpos($dir, ".") === false && is_dir($libraryPath . DS . $dir)) {
-        $namespace = ucfirst(strtolower($dir));
-        $namespaces[$namespace] = $libraryPath . DS . $dir;
-    }
+$modules = [];
+foreach ($config->web->modules as $module) {
+    $modules[$module['name']] =[
+        'className' => $module['class'],
+        'path'      => APP_PATH . DS . $module['path']
+    ];
 }
 
-$loader->registerNamespaces($namespaces);
+/**
+ * Handle the request
+ */
+$application = new Application($di);
+
+/**
+ * Register application modules
+ */
+$application->registerModules($modules);
 
 /**
  * Register module classes
