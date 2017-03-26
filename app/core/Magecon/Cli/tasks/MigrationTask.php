@@ -47,7 +47,7 @@ class MigrationTask extends Task {
         $block = new Block();
         /* @var $blockMeta \Phalcon\Mvc\Model\MetaData\Redis */
         $blockMeta = $block->getModelsMetaData();
-        print_r($blockMeta->getDataTypes($block));
+        $metaData = $blockMeta->readMetaData($block);
     }
 
     public function updateAction() {

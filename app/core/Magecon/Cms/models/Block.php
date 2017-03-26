@@ -81,10 +81,6 @@ class Block extends PhalconModel {
      */
     protected $updatedAt = "";
 
-    public function initialize() {
-        $this->setSource("cms_block");
-    }
-
     /**
      * @return int
      */
