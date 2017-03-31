@@ -1,7 +1,6 @@
 <?php
 /**
- * Copyright (c) 2017 MageCon
- *
+ * Copyright (c) 2017  MageCon
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -22,17 +21,40 @@
  */
 
 /**
- * @author Nguyen Van Thiep
- * Date: 25/03/2017
- * Time: 18:32
+ * @author NGUYEN Van Thiep
+ * Date: 30/03/2017
+ * Time: 17:50
  */
 
-return new \Phalcon\Config([
-    'module' => [
-        'name'  => 'frontend',
-        'class' => 'Magecon\Modules\Frontend\Module',
-        'path'  => 'modules/frontend/Module.php',
-        'version' => '1.0',
-        'areas' => ['web']
-    ],
-]);
+namespace Magecon\Mvc;
+
+use Phalcon\Mvc\Application as PhalconApplication;
+
+class Application extends PhalconApplication {
+    /**
+     * Override Phalcon application to load module register
+     *
+     * @param null $uri
+     *
+     * @return bool|\Phalcon\Http\ResponseInterface|void
+     */
+    public function handle($uri = null) {
+
+        $currentModule = $this->_defaultModule;
+        if (isset($arguments['module']) && $arguments['module']) {
+            $currentModule = $arguments['module'];
+        }
+
+        // Auto register other module
+        foreach ($this->_modules as $modueName => $module) {
+            if ($currentModule != $modueName) {
+                /** @var \Phalcon\Mvc\ModuleDefinitionInterface $moduleInstance */
+                $moduleInstance = new $module['className']();
+                $moduleInstance->registerAutoloaders();
+                $moduleInstance->registerServices($this->di);
+            }
+        }
+        parent::handle($uri);
+    }
+
+}

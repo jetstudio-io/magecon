@@ -1,7 +1,6 @@
 <?php
 /**
- * Copyright (c) 2017 MageCon
- *
+ * Copyright (c) 2017  MageCon
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -22,17 +21,20 @@
  */
 
 /**
- * @author Nguyen Van Thiep
- * Date: 25/03/2017
- * Time: 18:32
+ * @author NGUYEN Van Thiep
+ * Date: 30/03/2017
+ * Time: 14:06
  */
 
-return new \Phalcon\Config([
-    'module' => [
-        'name'  => 'frontend',
-        'class' => 'Magecon\Modules\Frontend\Module',
-        'path'  => 'modules/frontend/Module.php',
-        'version' => '1.0',
-        'areas' => ['web']
-    ],
-]);
+namespace Magecon\Frontend\Controllers;
+
+use Phalcon\Mvc\Controller as PhalconController;
+
+class ControllerBase extends PhalconController {
+    /**
+     *
+     */
+    public function initialize() {
+
+    }
+}

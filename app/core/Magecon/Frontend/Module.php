@@ -1,7 +1,6 @@
 <?php
 /**
- * Copyright (c) 2017 MageCon
- *
+ * Copyright (c) 2017  MageCon
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -20,20 +19,17 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-/**
- * @author Nguyen Van Thiep
- * Date: 25/03/2017
- * Time: 18:29
- */
 
-namespace Magecon\Template;
+namespace Magecon\Frontend;
 
 use Phalcon\DiInterface;
 use Phalcon\Loader;
+use Phalcon\Mvc\View;
+use Phalcon\Mvc\View\Engine\Php as PhpEngine;
 use Phalcon\Mvc\ModuleDefinitionInterface;
 
-
-class Module implements ModuleDefinitionInterface {
+class Module implements ModuleDefinitionInterface
+{
     /**
      * Registers an autoloader related to the module
      *
@@ -44,9 +40,10 @@ class Module implements ModuleDefinitionInterface {
         $loader = new Loader();
 
         $loader->registerNamespaces([
-            'Magecon\Template\Block' => __DIR__ . '/blocks/',
-            'Magecon\Template\Model' => __DIR__ . '/models/',
+            'Magecon\Frontend\Controllers' => __DIR__ . '/controllers/',
+            'Magecon\Frontend\Models' => __DIR__ . '/models/',
         ]);
+
         $loader->register();
     }
 

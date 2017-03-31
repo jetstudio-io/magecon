@@ -28,7 +28,35 @@
 
 namespace Magecon\Template\Block;
 
+use Phalcon\Mvc\View\Simple as SimpleView;
 
-class BlockAbstract {
+abstract class BlockAbstract extends SimpleView {
 
+    /**
+     * Template relative file
+     * @var string
+     */
+    protected $_template = "blocks/abstract.volt";
+
+    public function __construct(array $options = array()) {
+        parent::__construct($options);
+        $this->_engines = [
+        ];
+    }
+
+    public function __toString() {
+        return $this->_html();
+    }
+
+    protected function _prepareLayout() {
+    }
+    /**
+     * Get block html
+     * @return string
+     */
+    protected function _html() {
+        // Prepare block layout
+        $this->_prepareLayout();
+        return $this->render($this->_template);
+    }
 }

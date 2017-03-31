@@ -32,15 +32,15 @@ $di->setShared('url', function () {
     return $url;
 });
 
+/**
+ * Redis component is used in session & cache
+ */
 $di->setShared('redis', function () {
     $redis = new \Redis();
     $redis->connect("127.0.0.1");
     return $redis;
 });
 
-/**
- * Redis component is used in session & cache
- */
 
 /**
  * Starts the session the first time some component requests the session service
