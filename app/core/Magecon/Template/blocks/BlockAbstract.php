@@ -32,6 +32,12 @@ use Phalcon\Mvc\View\Simple as SimpleView;
 
 abstract class BlockAbstract extends SimpleView {
 
+    protected $_childrend = [];
+
+    /**
+     * @var string
+     */
+    protected $_name = "";
     /**
      * Template relative file
      * @var string
@@ -43,6 +49,53 @@ abstract class BlockAbstract extends SimpleView {
         $this->_engines = [
         ];
     }
+
+    public function add(BlockAbstract $child) {
+
+    }
+
+    /**
+     * @return array
+     */
+    public function getChildrend(): array {
+        return $this->_childrend;
+    }
+
+    /**
+     * @param array $childrend
+     */
+    public function setChildrend(array $childrend) {
+        $this->_childrend = $childrend;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName(): string {
+        return $this->_name;
+    }
+
+    /**
+     * @param string $name
+     */
+    public function setName(string $name) {
+        $this->_name = $name;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTemplate(): string {
+        return $this->_template;
+    }
+
+    /**
+     * @param string $template
+     */
+    public function setTemplate(string $template) {
+        $this->_template = $template;
+    }
+
 
     public function __toString() {
         return $this->_html();
