@@ -30,6 +30,13 @@ namespace Magecon\Template\Block;
 
 use Phalcon\Mvc\View\Simple as SimpleView;
 
+/**
+ * Class BlockAbstract
+ * @package Magecon\Template\Block
+ * @Block(
+ *     template="blocks/abstract.volt",
+ * )
+ */
 abstract class BlockAbstract extends SimpleView {
 
     /**
@@ -47,7 +54,11 @@ abstract class BlockAbstract extends SimpleView {
      */
     protected $_template = "blocks/abstract.volt";
 
-    protected $_templateDir = "";
+    /**
+     * The template dir must be in views folder in module folder
+     * @var string
+     */
+    protected $_templateDir = "/../views";
 
     public function __construct(array $options = array()) {
         parent::__construct($options);

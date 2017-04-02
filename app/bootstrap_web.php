@@ -8,6 +8,7 @@ define("DS", DIRECTORY_SEPARATOR);
 define('BASE_PATH', dirname(__DIR__));
 define('APP_PATH', BASE_PATH . '/app');
 define('CORE_PATH', APP_PATH . '/core');
+define('VENDOR_PATH', BASE_PATH . DS . 'vendor');
 
 try {
 
@@ -16,6 +17,12 @@ try {
      * provide a full stack framework. These default services can be overidden with custom ones.
      */
     $di = new FactoryDefault();
+
+    /**
+     * Include vendor packet
+     */
+    include VENDOR_PATH . DS . 'autoload.php';
+
 
     /**
      * Include general services

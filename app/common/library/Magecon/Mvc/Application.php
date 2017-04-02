@@ -41,8 +41,12 @@ class Application extends PhalconApplication {
     public function handle($uri = null) {
 
         $currentModule = $this->_defaultModule;
-        if (isset($arguments['module']) && $arguments['module']) {
-            $currentModule = $arguments['module'];
+        /* @var $router \Phalcon\Mvc\Router */
+        $router = $this->di->get('router');
+        $router->handle($uri);
+
+        if ($router->getModuleName()) {
+            $currentModule = $router->getModuleName();
         }
 
         // Auto register other module
@@ -54,7 +58,7 @@ class Application extends PhalconApplication {
                 $moduleInstance->registerServices($this->di);
             }
         }
-        parent::handle($uri);
+        return parent::handle($uri);
     }
 
 }

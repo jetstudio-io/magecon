@@ -1,7 +1,7 @@
 <?php
 
 use Phalcon\Loader;
-use Phalcon\Mvc\Application;
+use Magecon\Mvc\Application;
 
 $loader = new Loader();
 

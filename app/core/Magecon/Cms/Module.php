@@ -22,6 +22,7 @@
 
 namespace Magecon\Cms;
 
+use Phalcon\Mvc\Dispatcher;
 use Phalcon\DiInterface;
 use Phalcon\Loader;
 use Phalcon\Mvc\ModuleDefinitionInterface;
@@ -50,16 +51,5 @@ class Module implements ModuleDefinitionInterface
      */
     public function registerServices(DiInterface $di)
     {
-        // Registering a dispatcher
-        $di->set(
-            "dispatcher",
-            function () {
-                $dispatcher = new Dispatcher();
-
-                $dispatcher->setDefaultNamespace('Magecon\Cms\Model');
-
-                return $dispatcher;
-            }
-        );
     }
 }
