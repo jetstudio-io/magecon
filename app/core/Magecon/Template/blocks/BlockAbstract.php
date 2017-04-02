@@ -32,8 +32,11 @@ use Phalcon\Mvc\View\Simple as SimpleView;
 
 abstract class BlockAbstract extends SimpleView {
 
+    /**
+     * The children block
+     * @var array
+     */
     protected $_childrend = [];
-
     /**
      * @var string
      */
@@ -44,14 +47,73 @@ abstract class BlockAbstract extends SimpleView {
      */
     protected $_template = "blocks/abstract.volt";
 
+    protected $_templateDir = "";
+
     public function __construct(array $options = array()) {
         parent::__construct($options);
-        $this->_engines = [
-        ];
+        $reflector = new \ReflectionClass(get_class($this));
+        $dir = dirname($reflector->getFileName());
+        $this->_templateDir = $dir . DS . ".." . DS . "views";
     }
 
-    public function add(BlockAbstract $child) {
+    /**
+     * @param BlockAbstract $child
+     * @param string $before
+     * @param string $after
+     * @return BlockAbstract
+     */
+    public function addChild(BlockAbstract $child, $before = "", $after = "") {
+        if ($before) {
+            if ($before == "-") {
+                $this->_childrend = [$child->getName() => $child] + $this->_childrend;
+            }
+            if ($this->_childrend[$before]) {
+                $idx = array_search($before, array_keys($this->_childrend));
+                array_splice($this->_childrend, $idx, 0, [$child->getName() => $child]);
+            }
+        } elseif ($after && $this->_childrend[$after]) {
+            $idx = array_search($after, array_keys($this->_childrend));
+            array_splice($this->_childrend, $idx + 1, 0, [$child->getName() => $child]);
+        }
+        $this->_childrend[$child->getName()] = $child;
+        return $this;
+    }
 
+    /**
+     * @param BlockAbstract|string $child
+     * @return BlockAbstract
+     */
+    public function removeChild($child) {
+        if (($child instanceof BlockAbstract) && isset($this->_childrend[$child->getName()])) {
+            unset($this->_childrend[$child->getName()]);
+        } elseif (is_string($child) && isset($this->_childrend[$child])) {
+            unset($this->_childrend[$child]);
+        }
+        return $this;
+    }
+
+    /**
+     * @param string $childName
+     * @return bool|BlockAbstract
+     */
+    public function getChildBlock($childName = "") {
+        if (isset($this->_childrend[$childName])) {
+            return $this->_childrend[$childName];
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * @param string $childName
+     * @return bool|BlockAbstract
+     */
+    public function getChildHtml($childName = "") {
+        if (isset($this->_childrend[$childName])) {
+            return $this->_childrend[$childName]->toHtml();
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -63,9 +125,11 @@ abstract class BlockAbstract extends SimpleView {
 
     /**
      * @param array $childrend
+     * @return BlockAbstract
      */
     public function setChildrend(array $childrend) {
         $this->_childrend = $childrend;
+        return $this;
     }
 
     /**
@@ -77,9 +141,11 @@ abstract class BlockAbstract extends SimpleView {
 
     /**
      * @param string $name
+     * @return BlockAbstract
      */
     public function setName(string $name) {
         $this->_name = $name;
+        return $this;
     }
 
     /**
@@ -91,25 +157,41 @@ abstract class BlockAbstract extends SimpleView {
 
     /**
      * @param string $template
+     * @return BlockAbstract
      */
     public function setTemplate(string $template) {
         $this->_template = $template;
+        return $this;
     }
 
-
+    /**
+     * @return string
+     */
     public function __toString() {
         return $this->_html();
     }
 
+    /**
+     * @return string
+     */
+    public function toHtml() {
+        return $this->_html();
+    }
+
+    /**
+     * @return BlockAbstract
+     */
     protected function _prepareLayout() {
+        return $this;
     }
     /**
      * Get block html
+     * Use Phalcon\Mvc\View\SimpleView::render function
      * @return string
      */
     protected function _html() {
         // Prepare block layout
         $this->_prepareLayout();
-        return $this->render($this->_template);
+        return $this->render($this->_templateDir . DS . $this->_template);
     }
 }

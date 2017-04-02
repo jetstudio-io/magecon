@@ -29,7 +29,7 @@
 
 namespace Magecon\Cms\Model;
 
-use Magecon\Traits\Timestampable;
+use Phalcon\Traits\Timestampable;
 use Phalcon\Mvc\Model as PhalconModel;
 use Phalcon\Db\Column;
 
