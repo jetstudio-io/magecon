@@ -36,7 +36,7 @@ class Application extends PhalconApplication {
      *
      * @param null $uri
      *
-     * @return bool|\Phalcon\Http\ResponseInterface|void
+     * @return bool|\Phalcon\Http\ResponseInterface
      */
     public function handle($uri = null) {
 

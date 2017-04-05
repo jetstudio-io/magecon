@@ -22,17 +22,13 @@
  */
 /**
  * @author Nguyen Van Thiep
- * Date: 25/03/2017
- * Time: 18:32
+ * Date: 05/04/2017
+ * Time: 21:36
  */
 
-return new \Phalcon\Config([
-    'module' => [
-        'name'  => 'template',
-        'class' => 'Magecon\Template\Module',
-        'path'  => 'core/Magecon/Template',
-        'version' => '1.0',
-        'areas' => ['cli', 'web']
-    ],
+namespace Magecon\Template\Block;
 
-]);
+
+class Layout extends BlockAbstract {
+
+}

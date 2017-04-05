@@ -20,6 +20,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+
 /**
  * @author Nguyen Van Thiep
  * Date: 25/03/2017
@@ -28,11 +29,10 @@
 
 return new \Phalcon\Config([
     'module' => [
-        'name'  => 'template',
-        'class' => 'Magecon\Template\Module',
-        'path'  => 'core/Magecon/Template',
+        'name'  => 'frontend',
+        'class' => 'Magecon\Modules\Frontend\Module',
+        'path'  => 'modules/frontend',
         'version' => '1.0',
-        'areas' => ['cli', 'web']
+        'areas' => ['web']
     ],
-
 ]);

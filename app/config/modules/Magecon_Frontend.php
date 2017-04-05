@@ -29,9 +29,9 @@
 
 return new \Phalcon\Config([
     'module' => [
-        'name'  => 'frontend',
-        'class' => 'Magecon\Modules\Frontend\Module',
-        'path'  => 'modules/frontend/Module.php',
+        'name'  => 'core_frontend',
+        'class' => 'Magecon\Frontend\Module',
+        'path'  => 'core/Magecon/Frontend',
         'version' => '1.0',
         'areas' => ['web']
     ],

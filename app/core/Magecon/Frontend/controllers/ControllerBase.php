@@ -28,13 +28,25 @@
 
 namespace Magecon\Frontend\Controllers;
 
+use Magecon\Template\Block\Layout;
 use Phalcon\Mvc\Controller as PhalconController;
 
 class ControllerBase extends PhalconController {
     /**
+     * @var Layout
+     */
+    protected $_layout = null;
+
+    /**
      *
      */
     public function initialize() {
+        $dispatcher = $this->dispatcher;
+        $actionLayoutName = sprintf("%s_%s_%s", $dispatcher->getModuleName(), $dispatcher->getControllerName(), $dispatcher->getActionName());
+        echo $actionLayoutName;die;
+    }
 
+    protected function _loadLayoutHandler($handlerName) {
+        $config = $this->getDI()->get('config');
     }
 }
