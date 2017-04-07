@@ -22,17 +22,16 @@
  */
 /**
  * @author Nguyen Van Thiep
- * Date: 25/03/2017
- * Time: 18:32
+ * Date: 07/04/2017
+ * Time: 00:26
  */
 
 return new \Phalcon\Config([
-    'module' => [
-        'name'  => 'core_template',
-        'class' => 'Magecon\Template\Module',
-        'path'  => 'core/Magecon/Template',
-        'version' => '1.0',
-        'areas' => ['cli', 'web']
-    ],
-
+    'layout' => [
+        'frontend_index_index' => [
+            'header' => [
+                'template' => 'blocks/header.html.volt'
+            ]
+        ]
+    ]
 ]);

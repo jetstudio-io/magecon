@@ -41,22 +41,26 @@ use Phalcon\Config\Adapter\Yaml as ConfigYaml;
  */
 class ConfigLoader {
 
-    const MODULE_CONFIG_PATH = 'config/modules/';
+    const MODULE_CONFIG_PATH = APP_PATH . DS . 'config/modules/';
     const ALLOW_EXTENSION = ['php', 'ini', 'json', 'yml'];
 
-    public static function autoload(FactoryDefault $di) {
+    protected $_di;
 
+    public function __construct(FactoryDefault $di) {
+        $this->_di = $di;
+        $this->autoload();
+    }
+
+    public function autoload() {
         //@TODO load config from cache
         //$cache = $di->get('cache');
 
-        $configPath = APP_PATH . DS . self::MODULE_CONFIG_PATH;
-
         /** @var PhalconConfig $globalConfig */
-        $globalConfig = $di->get('config');
-        $configDir = opendir($configPath);
+        $globalConfig = $this->_di->get('config');
+        $configDir = opendir(self::MODULE_CONFIG_PATH);
         while ($file = readdir($configDir)) {
-            if (is_file($configPath . $file) && self::_isConfigFile($file)) {
-                $config = self::_getConfig($configPath . $file);
+            if (is_file(self::MODULE_CONFIG_PATH . $file) && self::_isConfigFile($file)) {
+                $config = self::_getConfig(self::MODULE_CONFIG_PATH . $file);
                 if (isset($config->module)) {
                     $module = $config->module;
                     unset($config->module);
@@ -71,7 +75,14 @@ class ConfigLoader {
                 $globalConfig->merge($config);
             }
         }
-        $di->setShared('config', $globalConfig);
+        $this->_di->setShared('config', $globalConfig);
+    }
+
+    /**
+     * @param string $configName
+     */
+    public function loadModuleConfig($configName = 'layout') {
+        
     }
 
     /**
@@ -80,7 +91,7 @@ class ConfigLoader {
      *
      * @return PhalconConfig|bool
      */
-    protected static function _isConfigFile($filename) {
+    protected function _isConfigFile($filename) {
         if (($match = preg_match("/^[A-Z]([^_]*)_[A-Z]([^_]*)\.([^.]*)$/", $filename, $filepart))) {
             $extension = $filepart[3];
             if (!in_array($extension, self::ALLOW_EXTENSION)) {
@@ -92,7 +103,7 @@ class ConfigLoader {
         }
     }
 
-    protected static function _getConfig($filePath) {
+    protected function _getConfig($filePath) {
         $extension = pathinfo($filePath, PATHINFO_EXTENSION);
         switch ($extension) {
             case "php":

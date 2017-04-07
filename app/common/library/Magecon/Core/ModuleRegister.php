@@ -28,7 +28,8 @@
 
 namespace Magecon\Core;
 
-use Phalcon\Di\FactoryDefault;
+use Phalcon\Application;
+use Phalcon\Loader;
 
 /**
  * Moduel auto-registration
@@ -36,7 +37,25 @@ use Phalcon\Di\FactoryDefault;
  * @package Magecon\Core
  */
 class ModuleRegister {
-    public static function register(FactoryDefault $di) {
+
+    const MODULE_CONFIG_PATH = 'config/modules/';
+
+    public static function register(Application $application, $area = 'web') {
+        $config = $application->getDI()->get('config');
+        $modules = [];
+        $classes = [];
+        foreach ($config->{$area}->modules as $name => $module) {
+            $modules[$module['name']] =[
+                'className'     => $module['class'],
+                'path'      => APP_PATH . DS . $module['path'] . "/Module.php"
+            ];
+            $classes[$module['class']] = $config->application->appDir . $module['path'] . "/Module.php";
+        }
+        $application->registerModules($modules);
+
+        $loader = new Loader();
+        $loader->registerClasses($classes);
+        $loader->register();
     }
 
     //

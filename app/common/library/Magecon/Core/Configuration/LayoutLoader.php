@@ -22,17 +22,19 @@
  */
 /**
  * @author Nguyen Van Thiep
- * Date: 25/03/2017
- * Time: 18:32
+ * Date: 07/04/2017
+ * Time: 01:39
  */
 
-return new \Phalcon\Config([
-    'module' => [
-        'name'  => 'core_template',
-        'class' => 'Magecon\Template\Module',
-        'path'  => 'core/Magecon/Template',
-        'version' => '1.0',
-        'areas' => ['cli', 'web']
-    ],
+namespace Magecon\Core\Configuration;
 
-]);
+use Magecon\Core\ConfigLoader;
+use Phalcon\Di\FactoryDefault;
+
+class LayoutLoader extends ConfigLoader implements LoaderInterface {
+
+    public function processConfig(FactoryDefault $di) {
+
+    }
+
+}
