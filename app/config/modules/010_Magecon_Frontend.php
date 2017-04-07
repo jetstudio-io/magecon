@@ -20,18 +20,19 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+
 /**
  * @author Nguyen Van Thiep
- * Date: 07/04/2017
- * Time: 00:26
+ * Date: 25/03/2017
+ * Time: 18:32
  */
 
 return new \Phalcon\Config([
-    'layout' => [
-        'frontend_index_index' => [
-            'header' => [
-                'template' => 'blocks/header.html.volt'
-            ]
-        ]
-    ]
+    'module' => [
+        'name'  => 'core_frontend',
+        'class' => 'Magecon\Frontend\Module',
+        'path'  => 'core/Magecon/Frontend',
+        'version' => '1.0',
+        'areas' => ['frontend']
+    ],
 ]);

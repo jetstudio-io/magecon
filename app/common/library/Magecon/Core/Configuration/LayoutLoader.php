@@ -28,13 +28,40 @@
 
 namespace Magecon\Core\Configuration;
 
-use Magecon\Core\ConfigLoader;
+use Magecon\Core\Configuration\Traits\Loader;
+use Phalcon\Config;
 use Phalcon\Di\FactoryDefault;
 
-class LayoutLoader extends ConfigLoader implements LoaderInterface {
+class LayoutLoader implements LoaderInterface {
 
-    public function processConfig(FactoryDefault $di) {
+    const MODULE_LAYOUT_PATH = '/configs/layout/';
+    use Loader;
+    /**
+     * Load layout config
+     * @param \Phalcon\Di\FactoryDefault $di
+     * @param array                      $params
+     */
+    public function processConfig(FactoryDefault $di, $params = ['area' => 'frontend']) {
+        // Load layout for frontend by default
+        if (!isset($params['area'])) {
+            $params['area'] = 'frontend';
+        }
 
+        //Load layout config file in all frontend module
+        $config = $di->get('config');
+        if (isset($config->layout)) {
+            $globalLayout = $config->layout;
+        } else {
+            $globalLayout = new Config([]);
+        }
+
+        foreach ($config->{$params['area']}->modules as $name => $module) {
+            $configFile = $module['path'] . self::MODULE_LAYOUT_PATH . $params['area'] . '.php';
+            $moduleLayout = $this->_getConfig($configFile);
+            $globalLayout->merge($moduleLayout);
+        }
+        $config->layout = $globalLayout;
+        $di->setShared('config', $config);
     }
 
 }

@@ -13,5 +13,5 @@ namespace Magecon\Core\Configuration;
 use Phalcon\Di\FactoryDefault;
 
 interface LoaderInterface {
-    public function processConfig(FactoryDefault $di);
+    public function processConfig(FactoryDefault $di, $params = ['area' => 'frontend']);
 }

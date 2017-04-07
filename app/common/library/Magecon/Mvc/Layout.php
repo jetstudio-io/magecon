@@ -22,17 +22,38 @@
  */
 /**
  * @author Nguyen Van Thiep
- * Date: 25/03/2017
- * Time: 18:32
+ * Date: 05/04/2017
+ * Time: 21:36
  */
 
-return new \Phalcon\Config([
-    'module' => [
-        'name'  => 'core_template',
-        'class' => 'Magecon\Template\Module',
-        'path'  => 'core/Magecon/Template',
-        'version' => '1.0',
-        'areas' => ['cli', 'web']
-    ],
+namespace Magecon\Mvc;
 
-]);
+use Phalcon\Mvc\View;
+
+class Layout extends View {
+
+    protected $_handles = ['default'];
+    protected $_processed = FALSE;
+
+    /**
+     * Template relative file
+     * @var string
+     */
+    protected $_template = "layout/index.html.volt";
+
+    public function processConfig($layoutConfig) {
+
+    }
+
+    public function addHandleUpdate($handleName) {
+        if (!in_array($handleName, $this->_handles)) {
+            $this->_handles[] = $handleName;
+        }
+    }
+
+    public function renderLayout() {
+        if (!$this->_processed) {
+            $this->_processed = TRUE;
+        }
+    }
+}

@@ -22,44 +22,47 @@
 
 /**
  * @author NGUYEN Van Thiep
- * Date: 24/03/2017
- * Time: 16:43
+ * Date: 07/04/2017
+ * Time: 14:05
  */
 
-namespace Magecon\Core;
+namespace Magecon\Core\Configuration\Traits;
 
-use Phalcon\Application;
-use Phalcon\Loader;
 
-/**
- * Moduel auto-registration
- * Class ModuleRegister
- * @package Magecon\Core
- */
-class ModuleRegister {
-
-    const MODULE_CONFIG_PATH = 'config/modules/';
-
-    public static function register(Application $application, $area = 'frontend') {
-        $config = $application->getDI()->get('config');
-        $modules = [];
-        $classes = [];
-        foreach ($config->{$area}->modules as $name => $module) {
-            $modules[$module['name']] =[
-                'className'     => $module['class'],
-                'path'      => APP_PATH . DS . $module['path'] . "/Module.php"
-            ];
-            $classes[$module['class']] = $config->application->appDir . $module['path'] . "/Module.php";
+trait Loader {
+    /**
+     * Check if file name is match config patten Company_Module.{php|ini|json|yml}
+     * @param $filename
+     *
+     * @return PhalconConfig|bool
+     */
+    protected function _isConfigFile($filename) {
+        if (($match = preg_match("/^[0-9]*_[A-Z]([^_]*)_[A-Z]([^_]*)\.([^.]*)$/", $filename, $filepart))) {
+            $extension = $filepart[3];
+            if (!in_array($extension, self::ALLOW_EXTENSION)) {
+                return false;
+            }
+            return true;
+        } else {
+            return false;
         }
-        $application->registerModules($modules);
-
-        $loader = new Loader();
-        $loader->registerClasses($classes);
-        $loader->register();
     }
 
-    //
-    protected static function _coreRegister() {
-
+    protected function _getConfig($filePath) {
+        $extension = pathinfo($filePath, PATHINFO_EXTENSION);
+        switch ($extension) {
+            case "php":
+                return include $filePath;
+                break;
+            case 'ini':
+                return new ConfigIni($filePath);
+                break;
+            case 'json':
+                return new ConfigJson($filePath);
+                break;
+            case 'yml':
+                return new ConfigYaml($filePath);
+                break;
+        }
     }
 }

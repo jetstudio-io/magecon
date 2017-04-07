@@ -33,6 +33,6 @@ return new \Phalcon\Config([
         'class' => 'Magecon\Modules\Frontend\Module',
         'path'  => 'modules/frontend',
         'version' => '1.0',
-        'areas' => ['web']
+        'areas' => ['frontend']
     ],
 ]);

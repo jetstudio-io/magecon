@@ -7,3 +7,4 @@ public/assets
 app/config/config.php
 composer.lock
 vendor
+app/views/*

@@ -39,11 +39,13 @@ use Phalcon\Mvc\View\Simple as SimpleView;
  */
 abstract class BlockAbstract extends SimpleView {
 
+    const DEFAULT_TEMPLATE = 'core_frontend';
+    const TEMPLATE_DIR = APP_PATH . DS . 'views';
     /**
      * The children block
      * @var array
      */
-    protected $_childrend = [];
+    protected $_children = [];
     /**
      * @var string
      */
@@ -54,17 +56,8 @@ abstract class BlockAbstract extends SimpleView {
      */
     protected $_template = "blocks/abstract.volt";
 
-    /**
-     * The template dir must be in views folder in module folder
-     * @var string
-     */
-    protected $_templateDir = "/../views";
-
     public function __construct(array $options = array()) {
         parent::__construct($options);
-        $reflector = new \ReflectionClass(get_class($this));
-        $dir = dirname($reflector->getFileName());
-        $this->_templateDir = $dir . DS . ".." . DS . "views";
     }
 
     /**
@@ -76,17 +69,17 @@ abstract class BlockAbstract extends SimpleView {
     public function addChild(BlockAbstract $child, $before = "", $after = "") {
         if ($before) {
             if ($before == "-") {
-                $this->_childrend = [$child->getName() => $child] + $this->_childrend;
+                $this->_children = [$child->getName() => $child] + $this->_children;
             }
-            if ($this->_childrend[$before]) {
-                $idx = array_search($before, array_keys($this->_childrend));
-                array_splice($this->_childrend, $idx, 0, [$child->getName() => $child]);
+            if ($this->_children[$before]) {
+                $idx = array_search($before, array_keys($this->_children));
+                array_splice($this->_children, $idx, 0, [$child->getName() => $child]);
             }
-        } elseif ($after && $this->_childrend[$after]) {
-            $idx = array_search($after, array_keys($this->_childrend));
-            array_splice($this->_childrend, $idx + 1, 0, [$child->getName() => $child]);
+        } elseif ($after && $this->_children[$after]) {
+            $idx = array_search($after, array_keys($this->_children));
+            array_splice($this->_children, $idx + 1, 0, [$child->getName() => $child]);
         }
-        $this->_childrend[$child->getName()] = $child;
+        $this->_children[$child->getName()] = $child;
         return $this;
     }
 
@@ -95,10 +88,10 @@ abstract class BlockAbstract extends SimpleView {
      * @return BlockAbstract
      */
     public function removeChild($child) {
-        if (($child instanceof BlockAbstract) && isset($this->_childrend[$child->getName()])) {
-            unset($this->_childrend[$child->getName()]);
-        } elseif (is_string($child) && isset($this->_childrend[$child])) {
-            unset($this->_childrend[$child]);
+        if (($child instanceof BlockAbstract) && isset($this->_children[$child->getName()])) {
+            unset($this->_children[$child->getName()]);
+        } elseif (is_string($child) && isset($this->_children[$child])) {
+            unset($this->_children[$child]);
         }
         return $this;
     }
@@ -108,8 +101,8 @@ abstract class BlockAbstract extends SimpleView {
      * @return bool|BlockAbstract
      */
     public function getChildBlock($childName = "") {
-        if (isset($this->_childrend[$childName])) {
-            return $this->_childrend[$childName];
+        if (isset($this->_children[$childName])) {
+            return $this->_children[$childName];
         } else {
             return false;
         }
@@ -117,11 +110,11 @@ abstract class BlockAbstract extends SimpleView {
 
     /**
      * @param string $childName
-     * @return bool|BlockAbstract
+     * @return bool|string
      */
     public function getChildHtml($childName = "") {
-        if (isset($this->_childrend[$childName])) {
-            return $this->_childrend[$childName]->toHtml();
+        if (isset($this->_children[$childName])) {
+            return $this->_children[$childName]->toHtml();
         } else {
             return false;
         }
@@ -130,16 +123,17 @@ abstract class BlockAbstract extends SimpleView {
     /**
      * @return array
      */
-    public function getChildrend(): array {
-        return $this->_childrend;
+    public function getChildren(): array {
+        return $this->_children;
     }
 
     /**
-     * @param array $childrend
+     * @param array $children
+     *
      * @return BlockAbstract
      */
-    public function setChildrend(array $childrend) {
-        $this->_childrend = $childrend;
+    public function setChildren(array $children) {
+        $this->_children = $children;
         return $this;
     }
 
@@ -203,6 +197,6 @@ abstract class BlockAbstract extends SimpleView {
     protected function _html() {
         // Prepare block layout
         $this->_prepareLayout();
-        return $this->render($this->_templateDir . DS . $this->_template);
+        return $this->render(self::TEMPLATE_DIR . DS . $this->_template);
     }
 }

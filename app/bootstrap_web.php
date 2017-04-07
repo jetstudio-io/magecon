@@ -9,6 +9,7 @@ define('BASE_PATH', dirname(__DIR__));
 define('APP_PATH', BASE_PATH . '/app');
 define('CORE_PATH', APP_PATH . '/core');
 define('VENDOR_PATH', BASE_PATH . DS . 'vendor');
+define('VIEW_PATH', APP_PATH . DS . 'views' . DS);
 
 try {
 
@@ -50,7 +51,9 @@ try {
      */
     require APP_PATH . '/config/routes.php';
 
-    echo $application->handle()->getContent();
+    $handle = $application->handle();
+
+    $handle->send();
 
 } catch (\Exception $e) {
     echo $e->getMessage() . '<br>';

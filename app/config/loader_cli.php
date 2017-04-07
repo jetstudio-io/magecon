@@ -9,7 +9,7 @@ $loader = new Loader();
 $config = $di->get('config');
 $classes = [];
 foreach ($config->cli->modules as $module) {
-    $classes[$module['class']] = APP_PATH . DS . $module['path'];
+    $classes[$module['class']] = APP_PATH . DS . $module['path'] . DS . 'Module.php';
 }
 $loader->registerClasses($classes);
 $loader->register();
@@ -18,7 +18,7 @@ $modules = [];
 foreach ($config->cli->modules as $module) {
     $modules[$module['name']] =[
         'className' => $module['class'],
-        'path'      => APP_PATH . DS . $module['path']
+        'path'      => APP_PATH . DS . $module['path'] . DS . 'Module.php'
     ];
 }
 

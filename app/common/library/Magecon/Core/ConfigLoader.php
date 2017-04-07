@@ -33,6 +33,7 @@ use Phalcon\Config as PhalconConfig;
 use Phalcon\Config\Adapter\Ini as ConfigIni;
 use Phalcon\Config\Adapter\Json as ConfigJson;
 use Phalcon\Config\Adapter\Yaml as ConfigYaml;
+use Magecon\Core\Configuration\Traits\Loader;
 
 /**
  * Config auto-loader
@@ -41,8 +42,11 @@ use Phalcon\Config\Adapter\Yaml as ConfigYaml;
  */
 class ConfigLoader {
 
+    use Loader;
+
     const MODULE_CONFIG_PATH = APP_PATH . DS . 'config/modules/';
     const ALLOW_EXTENSION = ['php', 'ini', 'json', 'yml'];
+    const ALLOW_AREAS = ['cli', 'frontend', 'backend', 'api'];
 
     protected $_di;
 
@@ -80,44 +84,18 @@ class ConfigLoader {
 
     /**
      * @param string $configName
-     */
-    public function loadModuleConfig($configName = 'layout') {
-        
-    }
-
-    /**
-     * Check if file name is match config patten Company_Module.{php|ini|json|yml}
-     * @param $filename
+     * @param array  $params
      *
-     * @return PhalconConfig|bool
+     * @return array
      */
-    protected function _isConfigFile($filename) {
-        if (($match = preg_match("/^[A-Z]([^_]*)_[A-Z]([^_]*)\.([^.]*)$/", $filename, $filepart))) {
-            $extension = $filepart[3];
-            if (!in_array($extension, self::ALLOW_EXTENSION)) {
-                return false;
-            }
-            return true;
+    public function loadModuleConfig($configName = 'layout', $params = []) {
+        $loaderClass = 'Magecon\Core\Configuration\\' . ucfirst($configName) . 'Loader.php';
+        if (class_exists($loaderClass)) {
+            /* @var $loaderInstance \Magecon\Core\Configuration\LoaderInterface */
+            $loaderInstance = new $loaderClass();
+            return $loaderInstance->processConfig($this->_di, $params);
         } else {
-            return false;
-        }
-    }
-
-    protected function _getConfig($filePath) {
-        $extension = pathinfo($filePath, PATHINFO_EXTENSION);
-        switch ($extension) {
-            case "php":
-                return include $filePath;
-                break;
-            case 'ini':
-                return new ConfigIni($filePath);
-                break;
-            case 'json':
-                return new ConfigJson($filePath);
-                break;
-            case 'yml':
-                return new ConfigYaml($filePath);
-                break;
+            return [];
         }
     }
 }

@@ -1,6 +1,7 @@
 <?php
 /**
- * Copyright (c) 2017  MageCon
+ * Copyright (c) 2017 MageCon
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -19,20 +20,18 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-
 /**
- * @author NGUYEN Van Thiep
- * Date: 24/03/2017
- * Time: 16:07
+ * @author Nguyen Van Thiep
+ * Date: 01/04/2017
+ * Time: 17:36
  */
 
-return new \Phalcon\Config([
-    'module' => [
-        'name'  => 'cms',
-        'class' => 'Magecon\Cms\Module',
-        'path'  => 'core/Magecon/Cms',
-        'version' => '1.0',
-        'areas' => ['cli', 'web']
-    ],
+namespace Magecon\Template\Block;
 
-]);
+/**
+ * Class Template
+ * A simple template block
+ * @package Magecon\Template\Block
+ */
+class Template extends BlockAbstract {
+}

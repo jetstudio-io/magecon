@@ -1,5 +1,6 @@
 <?php
 
+use Magecon\Mvc\Layout;
 use Phalcon\Mvc\Dispatcher;
 use Phalcon\Mvc\Router;
 use Phalcon\Mvc\Url as UrlResolver;
@@ -71,4 +72,43 @@ $di->setShared('dispatcher', function() {
     $dispatcher = new Dispatcher();
     $dispatcher->setDefaultNamespace('Magecon\Modules\Frontend\Controllers');
     return $dispatcher;
+});
+
+
+/**
+ * Configure the Volt service for rendering .volt templates
+ */
+$di->setShared('voltShared', function ($view) {
+    $config = $this->getConfig();
+
+    $volt = new VoltEngine($view, $this);
+    $volt->setOptions([
+        'compiledPath' => function($templatePath) use ($config) {
+
+            // Makes the view path into a portable fragment
+            $templateFrag = str_replace($config->application->appDir, '', $templatePath);
+
+            $cacheDir = dirname($config->application->cacheDir . 'volt' . DS . $templateFrag);
+            if (!file_exists($cacheDir)) {
+                mkdir($cacheDir, 0777, true);
+            }
+
+            return $config->application->cacheDir . 'volt/' . $templateFrag . '.php';
+        }
+    ]);
+
+    return $volt;
+});
+
+$di->set('view', function() {
+    $view = new Layout();
+    $view->setDI($this);
+    $view->setViewsDir(VIEW_PATH);
+
+    $view->registerEngines([
+        '.volt'  => 'voltShared',
+        '.phtml' => PhpEngine::class
+    ]);
+
+    return $view;
 });

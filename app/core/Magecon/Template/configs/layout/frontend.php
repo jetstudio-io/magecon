@@ -33,33 +33,39 @@ return new \Phalcon\Config([
             'blocks' => [
                 'head' => [
                     'type' => 'core_template/head',
-                    'action' => [
-                        'name' => 'addItem',
-                        'params' => [
-                            'type' => 'css'
-                        ]
-                    ]
-                ],
-                'header' => [
-                    'type' => 'core_template/container'
+                    'actions' => [
+                        'addItem' => [
+                            'type'  => 'skin_css',
+                            'name'  => 'test.css'
+                        ],
+                    ],
                 ],
                 'after_body_start' => [
-                    'type' => 'core_template/container'
+                    'type' => 'core_template/container',
+                ],
+                'header' => [
+                    'type' => 'core_template/container',
                 ],
                 'left' => [
-                    'type' => 'core_template/container'
+                    'type' => 'core_template/container',
                 ],
                 'content' => [
-                    'type' => 'core_template/container'
+                    'type' => 'core_template/container',
+                    'blocks' => [
+                        'main_content' => [
+                            'type' => 'core_template/template',
+                            'template' => 'blocks/content.html.volt',
+                        ],
+                    ],
                 ],
                 'right' => [
-                    'type' => 'core_template/container'
+                    'type' => 'core_template/container',
                 ],
                 'footer' => [
-                    'type' => 'core_template/container'
+                    'type' => 'core_template/container',
                 ],
                 'before_body_end' => [
-                    'type' => 'core_template/container'
+                    'type' => 'core_template/container',
                 ],
             ],
         ]

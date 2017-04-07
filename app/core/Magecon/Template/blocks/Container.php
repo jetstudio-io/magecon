@@ -40,7 +40,7 @@ class Container extends BlockAbstract {
      */
     protected function _html() {
         $html = "";
-        foreach ($this->_childrend as $childBlock) {
+        foreach ($this->_children as $childBlock) {
             /* @var BlockAbstract $childBlock*/
             $html .= $childBlock->toHtml();
         }
