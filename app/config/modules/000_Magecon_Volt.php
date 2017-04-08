@@ -1,6 +1,7 @@
 <?php
 /**
- * Copyright (c) 2017  MageCon
+ * Copyright (c) 2017 MageCon
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -19,40 +20,19 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+/**
+ * @author Nguyen Van Thiep
+ * Date: 25/03/2017
+ * Time: 18:32
+ */
 
-namespace Magecon\Frontend;
+return new \Phalcon\Config([
+    'module' => [
+        'name'  => 'core_volt',
+        'class' => 'Magecon\Volt\Module',
+        'path'  => 'core/Magecon/Volt',
+        'version' => '1.0',
+        'areas' => ['frontend', 'backend']
+    ],
 
-use Phalcon\DiInterface;
-use Phalcon\Loader;
-use Phalcon\Mvc\View;
-use Phalcon\Mvc\View\Engine\Php as PhpEngine;
-use Phalcon\Mvc\ModuleDefinitionInterface;
-
-class Module implements ModuleDefinitionInterface
-{
-    /**
-     * Registers an autoloader related to the module
-     *
-     * @param DiInterface $di
-     */
-    public function registerAutoloaders(DiInterface $di = null)
-    {
-        $loader = new Loader();
-
-        $loader->registerNamespaces([
-            'Magecon\Frontend\Controllers' => __DIR__ . '/controllers/',
-            'Magecon\Frontend\Models' => __DIR__ . '/models/',
-        ]);
-
-        $loader->register();
-    }
-
-    /**
-     * Registers services related to the module
-     *
-     * @param DiInterface $di
-     */
-    public function registerServices(DiInterface $di)
-    {
-    }
-}
+]);

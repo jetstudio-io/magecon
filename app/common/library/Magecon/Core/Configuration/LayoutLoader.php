@@ -31,6 +31,9 @@ namespace Magecon\Core\Configuration;
 use Magecon\Core\Configuration\Traits\Loader;
 use Phalcon\Config;
 use Phalcon\Di\FactoryDefault;
+use Phalcon\Config\Adapter\Ini as ConfigIni;
+use Phalcon\Config\Adapter\Json as ConfigJson;
+use Phalcon\Config\Adapter\Yaml as ConfigYaml;
 
 class LayoutLoader implements LoaderInterface {
 
@@ -56,9 +59,11 @@ class LayoutLoader implements LoaderInterface {
         }
 
         foreach ($config->{$params['area']}->modules as $name => $module) {
-            $configFile = $module['path'] . self::MODULE_LAYOUT_PATH . $params['area'] . '.php';
-            $moduleLayout = $this->_getConfig($configFile);
-            $globalLayout->merge($moduleLayout);
+            $configFile = APP_PATH . DS . $module['path'] . self::MODULE_LAYOUT_PATH . $params['area'] . '.php';
+            if (file_exists($configFile)) {
+                $moduleLayout = $this->_getConfig($configFile);
+                $globalLayout->merge($moduleLayout->layout);
+            }
         }
         $config->layout = $globalLayout;
         $di->setShared('config', $config);

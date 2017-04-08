@@ -28,15 +28,14 @@
 
 return new \Phalcon\Config([
     'layout' => [
-        'defaults' => [
+        'default' => [
             'template' => "layout/index.html.volt",
             'blocks' => [
                 'head' => [
-                    'type' => 'core_template/head',
+                    'type' => 'core_template/page_head',
                     'actions' => [
                         'addItem' => [
-                            'type'  => 'skin_css',
-                            'name'  => 'test.css'
+                            ['type' => 'skin_css', 'name' => 'test.css'],
                         ],
                     ],
                 ],
@@ -44,7 +43,8 @@ return new \Phalcon\Config([
                     'type' => 'core_template/container',
                 ],
                 'header' => [
-                    'type' => 'core_template/container',
+                    'type' => 'core_template/page_header',
+                    'template' => 'blocks/header.html.volt',
                 ],
                 'left' => [
                     'type' => 'core_template/container',
@@ -62,7 +62,8 @@ return new \Phalcon\Config([
                     'type' => 'core_template/container',
                 ],
                 'footer' => [
-                    'type' => 'core_template/container',
+                    'type' => 'core_template/template',
+                    'template' => 'blocks/footer.html.volt'
                 ],
                 'before_body_end' => [
                     'type' => 'core_template/container',

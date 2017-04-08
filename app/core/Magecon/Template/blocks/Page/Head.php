@@ -1,6 +1,7 @@
 <?php
 /**
- * Copyright (c) 2017  MageCon
+ * Copyright (c) 2017 magecon
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -20,39 +21,32 @@
  * SOFTWARE.
  */
 
-namespace Magecon\Frontend;
+/**
+ * @author Nguyen Van Thiep
+ * Date: 08/04/2017
+ * Time: 00:39
+ */
 
-use Phalcon\DiInterface;
-use Phalcon\Loader;
-use Phalcon\Mvc\View;
-use Phalcon\Mvc\View\Engine\Php as PhpEngine;
-use Phalcon\Mvc\ModuleDefinitionInterface;
+namespace Magecon\Template\Block\Page;
 
-class Module implements ModuleDefinitionInterface
-{
+use Magecon\Template\Block\BlockAbstract;
+
+class Head extends BlockAbstract {
+
     /**
-     * Registers an autoloader related to the module
-     *
-     * @param DiInterface $di
+     * @param string $type
+     * @param string $name
      */
-    public function registerAutoloaders(DiInterface $di = null)
-    {
-        $loader = new Loader();
+    public function addIteam($type = 'css', $name = '') {
 
-        $loader->registerNamespaces([
-            'Magecon\Frontend\Controllers' => __DIR__ . '/controllers/',
-            'Magecon\Frontend\Models' => __DIR__ . '/models/',
-        ]);
-
-        $loader->register();
     }
 
     /**
-     * Registers services related to the module
-     *
-     * @param DiInterface $di
+     * @return string
      */
-    public function registerServices(DiInterface $di)
-    {
+    protected function _html() {
+        return "";
     }
+
+
 }

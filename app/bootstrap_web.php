@@ -51,9 +51,9 @@ try {
      */
     require APP_PATH . '/config/routes.php';
 
-    $handle = $application->handle();
+    $response = $application->handle();
 
-    $handle->send();
+    $response->send();
 
 } catch (\Exception $e) {
     echo $e->getMessage() . '<br>';

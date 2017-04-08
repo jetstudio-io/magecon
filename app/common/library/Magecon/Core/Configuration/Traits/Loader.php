@@ -28,6 +28,9 @@
 
 namespace Magecon\Core\Configuration\Traits;
 
+use Phalcon\Config\Adapter\Ini as ConfigIni;
+use Phalcon\Config\Adapter\Json as ConfigJson;
+use Phalcon\Config\Adapter\Yaml as ConfigYaml;
 
 trait Loader {
     /**

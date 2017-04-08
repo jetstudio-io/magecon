@@ -3,7 +3,6 @@
 use Phalcon\Loader;
 use Phalcon\Mvc\Model\Metadata\Memory as MetaDataAdapter;
 //use Phalcon\Mvc\Model\MetaData\Redis as MetaDataAdapter;
-use Phalcon\Mvc\View\Engine\Volt as VoltEngine;
 use Phalcon\Logger\Adapter\File as Logger;
 use Phalcon\Mvc\Model\Manager as ModelsManager;
 use Phalcon\Events\Manager as EventsManager;

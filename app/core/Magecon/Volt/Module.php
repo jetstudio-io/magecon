@@ -10,7 +10,6 @@
 
 namespace Magecon\Volt;
 
-
 use Phalcon\DiInterface;
 use Phalcon\Mvc\ModuleDefinitionInterface;
 use Phalcon\Mvc\View\Engine\Volt;
@@ -24,11 +23,11 @@ class Module implements ModuleDefinitionInterface {
         /* @var $voltEngine Volt*/
         $voltEngine = $di->get('voltShared');
         $complier = $voltEngine->getCompiler();
-        $complier->addFunction('toHtml', function ($resolvedArgs, $exprArgs) use ($complier) {
+        $complier
+            ->addFunction('toHtml', function ($resolvedArgs, $exprArgs) use ($complier) {
             return '$this->toHtml()';
-        });
-
-        $complier->addFilter('getChildHtml', function ($resolvedArgs, $exprArgs) use ($complier) {
+        })
+            ->addFilter('getChildHtml', function ($resolvedArgs, $exprArgs) use ($complier) {
             return '$this->getChildHtml(\'' . $resolvedArgs . '\')';
         });
     }

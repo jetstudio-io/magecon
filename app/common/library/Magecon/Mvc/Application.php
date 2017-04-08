@@ -55,7 +55,7 @@ class Application extends PhalconApplication {
                 /** @var \Phalcon\Mvc\ModuleDefinitionInterface $moduleInstance */
                 $moduleInstance = new $module['className']();
                 $moduleInstance->registerAutoloaders();
-                $moduleInstance->registerServices($this->di);
+                $moduleInstance->registerServices($this->_dependencyInjector);
             }
         }
         return parent::handle($uri);

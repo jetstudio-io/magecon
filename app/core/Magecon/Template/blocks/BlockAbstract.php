@@ -29,6 +29,7 @@
 namespace Magecon\Template\Block;
 
 use Phalcon\Mvc\View\Simple as SimpleView;
+use Phalcon\Mvc\View\Engine\Php as PhpEngine;
 
 /**
  * Class BlockAbstract
@@ -39,7 +40,7 @@ use Phalcon\Mvc\View\Simple as SimpleView;
  */
 abstract class BlockAbstract extends SimpleView {
 
-    const DEFAULT_TEMPLATE = 'core_frontend';
+    const DEFAULT_MODULE = 'core_frontend';
     const TEMPLATE_DIR = APP_PATH . DS . 'views';
     /**
      * The children block
@@ -54,10 +55,25 @@ abstract class BlockAbstract extends SimpleView {
      * Template relative file
      * @var string
      */
-    protected $_template = "blocks/abstract.volt";
+    protected $_template = "blocks/abstract.html.volt";
+
+    /**
+     * @var string
+     */
+    protected $_area = "frontend";
+
+    /**
+     * @var string
+     */
+    protected $_module = "";
 
     public function __construct(array $options = array()) {
         parent::__construct($options);
+        $this->setViewsDir(self::TEMPLATE_DIR . DS . $this->_area . DS);
+        $this->registerEngines([
+            '.volt' => 'voltShared',
+            '.phtml' => PhpEngine::class
+        ]);
     }
 
     /**
@@ -172,6 +188,20 @@ abstract class BlockAbstract extends SimpleView {
     /**
      * @return string
      */
+    public function getModule(): string {
+        return $this->_module;
+    }
+
+    /**
+     * @param string $module
+     */
+    public function setModule(string $module) {
+        $this->_module = $module;
+    }
+
+    /**
+     * @return string
+     */
     public function __toString() {
         return $this->_html();
     }
@@ -197,6 +227,13 @@ abstract class BlockAbstract extends SimpleView {
     protected function _html() {
         // Prepare block layout
         $this->_prepareLayout();
-        return $this->render(self::TEMPLATE_DIR . DS . $this->_template);
+        $templateFile = $this->_module . DS . $this->_template;
+        if (!file_exists($this->_viewsDir . DS . $templateFile)) {
+            $templateFile = self::DEFAULT_MODULE . DS . $this->_template;
+            if (!file_exists($this->_viewsDir . DS . $templateFile)) {
+                return "";
+            }
+        }
+        return $this->render($templateFile);
     }
 }

@@ -28,6 +28,7 @@
 
 namespace Magecon\Frontend\Controllers;
 
+use Magecon\Mvc\Layout;
 use Phalcon\Mvc\Controller as PhalconController;
 
 abstract class ControllerBase extends PhalconController {
@@ -39,8 +40,24 @@ abstract class ControllerBase extends PhalconController {
     }
 
     protected function _initializeLayout() {
+        /* @var $configLoader \Magecon\Core\ConfigLoader */
+        $configLoader = $this->_dependencyInjector->get('configLoader');
+        $configLoader->loadModuleConfig('layout', ['area' => 'frontend']);
+
         $dispatcher = $this->dispatcher;
         $actionLayoutName = sprintf("%s_%s_%s", $dispatcher->getModuleName(), $dispatcher->getControllerName(), $dispatcher->getActionName());
-        $this->_dependencyInjector->get('layout')->addHandleUpdate($actionLayoutName);
+        /* @var $layout Layout */
+        $layout = $this->view;
+        $layout->setModule($dispatcher->getModuleName());
+        $layout->addHandleUpdate($actionLayoutName);
+    }
+
+    public function afterExecuteRoute() {
+        /* @var $layout Layout */
+        $layout = $this->view;
+        if (!$layout->isProcessed()) {
+            $layout->renderBlock();
+            $layout->renderLayout();
+        }
     }
 }

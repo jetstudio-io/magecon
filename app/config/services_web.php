@@ -5,7 +5,7 @@ use Phalcon\Mvc\Dispatcher;
 use Phalcon\Mvc\Router;
 use Phalcon\Mvc\Url as UrlResolver;
 use Phalcon\Session\Adapter\Redis as SessionAdapter;
-use Phalcon\Mvc\View;
+use Phalcon\Mvc\View\Engine\Php as PhpEngine;
 use Phalcon\Mvc\View\Engine\Volt as VoltEngine;
 use Phalcon\Flash\Direct as Flash;
 
@@ -74,14 +74,26 @@ $di->setShared('dispatcher', function() {
     return $dispatcher;
 });
 
+$di->setShared('view', function() {
+    $view = new Layout();
+    $view->setDI($this);
+    $view->setViewsDir(VIEW_PATH);
+
+    $view->registerEngines([
+        '.volt'  => 'voltShared',
+        '.phtml' => PhpEngine::class
+    ]);
+
+    return $view;
+});
 
 /**
  * Configure the Volt service for rendering .volt templates
  */
-$di->setShared('voltShared', function ($view) {
+$di->setShared('voltShared', function () {
     $config = $this->getConfig();
 
-    $volt = new VoltEngine($view, $this);
+    $volt = new VoltEngine($this->getView(), $this);
     $volt->setOptions([
         'compiledPath' => function($templatePath) use ($config) {
 
@@ -98,17 +110,4 @@ $di->setShared('voltShared', function ($view) {
     ]);
 
     return $volt;
-});
-
-$di->set('view', function() {
-    $view = new Layout();
-    $view->setDI($this);
-    $view->setViewsDir(VIEW_PATH);
-
-    $view->registerEngines([
-        '.volt'  => 'voltShared',
-        '.phtml' => PhpEngine::class
-    ]);
-
-    return $view;
 });

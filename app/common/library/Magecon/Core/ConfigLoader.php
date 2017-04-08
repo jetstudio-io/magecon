@@ -89,7 +89,7 @@ class ConfigLoader {
      * @return array
      */
     public function loadModuleConfig($configName = 'layout', $params = []) {
-        $loaderClass = 'Magecon\Core\Configuration\\' . ucfirst($configName) . 'Loader.php';
+        $loaderClass = 'Magecon\Core\Configuration\\' . ucfirst($configName) . 'Loader';
         if (class_exists($loaderClass)) {
             /* @var $loaderInstance \Magecon\Core\Configuration\LoaderInterface */
             $loaderInstance = new $loaderClass();

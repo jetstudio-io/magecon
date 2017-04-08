@@ -49,7 +49,21 @@
 
 return new \Phalcon\Config([
     'layout' => [
+        'default' => [
+            'blocks' => [
+                'head' => [
+                    'actions' => [
+                        'addItem' => [
+                            ['type' => 'skin_css', 'name' => 'test.css'],
+                        ],
+                    ],
+                ],
+            ],
+        ],
         'frontend_index_index' => [
-        ]
+            'blocks' => [
+                'head' => [],
+            ],
+        ],
     ]
 ]);
