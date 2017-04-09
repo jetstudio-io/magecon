@@ -12,7 +12,7 @@ use Phalcon\Flash\Direct as Flash;
 /**
  * Registering a router
  */
-$di->setShared('router', function () {
+$di->setShared(SERVICES::ROUTER, function () {
     $router = new Router();
 
     $router->setDefaultModule('frontend');
@@ -23,7 +23,7 @@ $di->setShared('router', function () {
 /**
  * The URL component is used to generate all kinds of URLs in the application
  */
-$di->setShared('url', function () {
+$di->setShared(SERVICES::URL, function () {
     $config = $this->getConfig();
 
     $url = new UrlResolver();
@@ -35,7 +35,7 @@ $di->setShared('url', function () {
 /**
  * Redis component is used in session & cache
  */
-$di->setShared('redis', function () {
+$di->setShared(SERVICES::REDIS, function () {
     $redis = new \Redis();
     $redis->connect("127.0.0.1");
     return $redis;
@@ -45,7 +45,7 @@ $di->setShared('redis', function () {
 /**
  * Starts the session the first time some component requests the session service
  */
-$di->setShared('session', function () use ($di) {
+$di->setShared(SERVICES::SESSION, function () use ($di) {
     $redis = $di->get('redis');
     $session = new SessionAdapter(['redis' => $redis]);
     $session->start();
@@ -56,7 +56,7 @@ $di->setShared('session', function () use ($di) {
 /**
  * Register the session flash service with the Twitter Bootstrap classes
  */
-$di->set('flash', function () {
+$di->set(SERVICES::FLASH, function () {
     return new Flash([
         'error'   => 'alert alert-danger',
         'success' => 'alert alert-success',
@@ -68,13 +68,13 @@ $di->set('flash', function () {
 /**
 * Set the default namespace for dispatcher
 */
-$di->setShared('dispatcher', function() {
+$di->setShared(SERVICES::DISPATCHER, function() {
     $dispatcher = new Dispatcher();
     $dispatcher->setDefaultNamespace('Magecon\Modules\Frontend\Controllers');
     return $dispatcher;
 });
 
-$di->setShared('view', function() {
+$di->setShared(SERVICES::VIEW, function() {
     $view = new Layout();
     $view->setDI($this);
     $view->setViewsDir(VIEW_PATH);
@@ -90,7 +90,7 @@ $di->setShared('view', function() {
 /**
  * Configure the Volt service for rendering .volt templates
  */
-$di->setShared('voltShared', function () {
+$di->setShared(SERVICES::VOLT_SHAREED, function () {
     $config = $this->getConfig();
 
     $volt = new VoltEngine($this->getView(), $this);

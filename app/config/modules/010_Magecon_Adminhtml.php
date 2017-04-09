@@ -1,6 +1,7 @@
 <?php
 /**
- * Copyright (c) 2017  MageCon
+ * Copyright (c) 2017 MageCon
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -21,36 +22,17 @@
  */
 
 /**
- * Date: 24/03/2017
- * Time: 15:38
+ * @author Nguyen Van Thiep
+ * Date: 25/03/2017
+ * Time: 18:32
  */
 
-namespace Magecon\Cli\Tasks;
-
-use Magecon\Cms\Model\Page;
-use Phalcon\Cli\Task;
-
-/**
- * Automatically take model metadata and update table
- * Command:
- * php run migration:action
- * Class MigrationTask
- * @package Magecon\Cli
- */
-
-class MigrationTask extends Task {
-
-    /**
-     *
-     */
-    public function mainAction() {
-        $block = new Page();
-        /* @var $blockMeta \Phalcon\Mvc\Model\MetaData\Redis */
-        $blockMeta = $block->getModelsMetaData();
-        $metaData = $blockMeta->readMetaData($block);
-    }
-
-    public function updateAction() {
-        echo "in update action\n";
-    }
-}
+return new \Phalcon\Config([
+    'module' => [
+        'name'  => 'core_adminhtml',
+        'class' => 'Magecon\Adminhtml\Module',
+        'path'  => 'core/Magecon/Adminhtml',
+        'version' => '1.0',
+        'areas' => ['backend']
+    ],
+]);

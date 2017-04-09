@@ -30,21 +30,77 @@
 namespace Magecon\Template\Block\Page;
 
 use Magecon\Template\Block\BlockAbstract;
+use Phalcon\Assets\Filters\Cssmin;
+use Phalcon\Assets\Filters\Jsmin;
+use Phalcon\Assets\Manager;
 
 class Head extends BlockAbstract {
 
     /**
-     * @param string $type
-     * @param string $name
+     * @var Manager
      */
-    public function addIteam($type = 'css', $name = '') {
+    protected $_assets = null;
 
+    /**
+     * @var array
+     */
+    protected $_items = [];
+
+    /**
+     * @param array $param
+     * @internal param string $type
+     * @internal param string $name
+     */
+    public function addItem($param = ['type' => 'css', 'path' => '']) {
+        if (isset($param['type']) && !empty($param['path'])) {
+            switch ($param['type']) {
+                case "css":
+                    $this->_items['css'][] = $param['path'];
+                    break;
+                case "js":
+                    $this->_items['js'][] = $param['path'];
+                    break;
+            }
+        }
     }
 
     /**
      * @return string
      */
     protected function _html() {
+        $this->_assets = new Manager([
+            'sourceBasePath' => BASE_PATH . DS . 'public' . DS,
+            'targetBasePath' => BASE_PATH . DS . 'public' . DS,
+            ]);
+        if (!empty($this->_items["css"])) {
+            $cssHeader = $this->_assets
+                ->collection("cssHeader");
+
+            $cssHeader->setTargetPath("css/all.css");
+            $cssHeader->setTargetUri("/css/all.css");
+            foreach ($this->_items["css"] as $css) {
+                $cssHeader->addCss($css);
+            }
+            $cssHeader->join(true);
+            $cssHeader->addFilter(new Cssmin());
+
+            $this->_assets->outputCss('cssHeader');
+        }
+
+        if (!empty($this->_items["js"])) {
+            $jsFooter = $this->_assets
+                ->collection("jsFooter");
+
+            $jsFooter->setTargetPath("js/all.js");
+            $jsFooter->setTargetUri("/js/all.js");
+            foreach ($this->_items["js"] as $js) {
+                $jsFooter->addJs($js);
+            }
+            $jsFooter->join(true);
+            $jsFooter->addFilter(new Jsmin());
+
+            $this->_assets->outputJs('jsFooter');
+        }
         return "";
     }
 

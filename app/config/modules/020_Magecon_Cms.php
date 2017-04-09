@@ -32,7 +32,7 @@ return new \Phalcon\Config([
         'class' => 'Magecon\Cms\Module',
         'path'  => 'core/Magecon/Cms',
         'version' => '1.0',
-        'areas' => ['cli', 'frontend']
+        'areas' => ['cli', 'frontend', 'backend']
     ],
 
 ]);

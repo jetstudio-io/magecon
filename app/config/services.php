@@ -15,14 +15,14 @@ use Magecon\Mvc\Model\Events\Manager\AnnotationsInitializer;
 /**
  * Shared configuration service
  */
-$di->setShared('config', function () {
+$di->setShared(SERVICES::CONFIG, function () {
     return include APP_PATH . "/config/config.php";
 });
 
 /**
  * Database connection is created based in the parameters defined in the configuration file
  */
-$di->setShared('db', function () {
+$di->setShared(SERVICES::DB, function () {
     $config = $this->getConfig();
 
     $class = 'Phalcon\Db\Adapter\Pdo\\' . $config->database->adapter;
@@ -46,7 +46,7 @@ $di->setShared('db', function () {
 /**
  * If the configuration specify the use of metadata adapter use it or use memory otherwise
  */
-$di->setShared('modelsMetadata', function () {
+$di->setShared(SERVICES::MODELS_META_DATA, function () {
 //    $metaData = new MetaDataAdapter([
 //        "host"       => "127.0.0.1",
 //        "port"       => 6379,
@@ -82,7 +82,7 @@ $di->setShared('logger', function() {
  * Annotation service
  */
 
-$di->setShared('annotations', function() {
+$di->setShared(SERVICES::ANNOTATIONS, function() {
     return new AnnotationRedis([
         'lifetime' => 8600,
         'prefix'   => 'annotations_',
@@ -105,3 +105,5 @@ $di->setShared('modelsManager', function () {
 
     return $modelsManager;
 });
+
+$di->setShared(SERVICES::EVENTS_MANAGER, new EventsManager());

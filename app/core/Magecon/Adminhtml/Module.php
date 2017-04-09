@@ -3,8 +3,6 @@ namespace Magecon\Adminhtml;
 
 use Phalcon\DiInterface;
 use Phalcon\Loader;
-use Phalcon\Mvc\View;
-use Phalcon\Mvc\View\Engine\Php as PhpEngine;
 use Phalcon\Mvc\ModuleDefinitionInterface;
 
 class Module implements ModuleDefinitionInterface

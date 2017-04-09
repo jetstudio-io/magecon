@@ -28,6 +28,8 @@
 
 namespace Magecon\Template\Block;
 
+use Magecon\Mvc\Layout;
+use Phalcon\DiInterface;
 use Phalcon\Mvc\View\Simple as SimpleView;
 use Phalcon\Mvc\View\Engine\Php as PhpEngine;
 
@@ -38,10 +40,9 @@ use Phalcon\Mvc\View\Engine\Php as PhpEngine;
  *     template="blocks/abstract.volt",
  * )
  */
-abstract class BlockAbstract extends SimpleView {
+abstract class BlockAbstract {
 
     const DEFAULT_MODULE = 'core_frontend';
-    const TEMPLATE_DIR = APP_PATH . DS . 'views';
     /**
      * The children block
      * @var array
@@ -67,13 +68,33 @@ abstract class BlockAbstract extends SimpleView {
      */
     protected $_module = "";
 
-    public function __construct(array $options = array()) {
-        parent::__construct($options);
-        $this->setViewsDir(self::TEMPLATE_DIR . DS . $this->_area . DS);
-        $this->registerEngines([
-            '.volt' => 'voltShared',
-            '.phtml' => PhpEngine::class
-        ]);
+    /**
+     * @var Layout|null
+     */
+    protected $_layout = null;
+
+    /**
+     * @return DiInterface
+     */
+    public function getDI(): DiInterface {
+        return $this->_dependencyInjector;
+    }
+
+    /**
+     * @param DiInterface $dependencyInjector
+     */
+    public function setDI(DiInterface $dependencyInjector) {
+        $this->_dependencyInjector = $dependencyInjector;
+    }
+
+    /**
+     * @var DiInterface
+     */
+    protected $_dependencyInjector = null;
+
+    public function __construct(Layout $layout) {
+        $this->_layout = $layout;
+        $this->_area = $layout->getArea();
     }
 
     /**
@@ -221,19 +242,19 @@ abstract class BlockAbstract extends SimpleView {
     }
     /**
      * Get block html
-     * Use Phalcon\Mvc\View\SimpleView::render function
      * @return string
      */
     protected function _html() {
         // Prepare block layout
         $this->_prepareLayout();
-        $templateFile = $this->_module . DS . $this->_template;
-        if (!file_exists($this->_viewsDir . DS . $templateFile)) {
-            $templateFile = self::DEFAULT_MODULE . DS . $this->_template;
-            if (!file_exists($this->_viewsDir . DS . $templateFile)) {
+        $templateFile = $this->_area . DS . $this->_module . DS . $this->_template;
+        if (!file_exists(VIEW_PATH . DS . $templateFile)) {
+            $templateFile = $this->_area . DS . self::DEFAULT_MODULE . DS . $this->_template;
+            if (!file_exists(VIEW_PATH . DS . $templateFile)) {
                 return "";
             }
         }
-        return $this->render($templateFile);
+        $this->_layout->setVar('currentView', $this);
+        return $this->_layout->render($templateFile);
     }
 }

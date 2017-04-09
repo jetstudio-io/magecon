@@ -40,7 +40,7 @@ abstract class ControllerBase extends PhalconController {
     }
 
     protected function _initializeLayout() {
-        /* @var $configLoader \Magecon\Core\ConfigLoader */
+        /* @var $configLoader \Magecon\Core\ModuleConfigLoader */
         $configLoader = $this->_dependencyInjector->get('configLoader');
         $configLoader->loadModuleConfig('layout', ['area' => 'frontend']);
 
@@ -53,6 +53,11 @@ abstract class ControllerBase extends PhalconController {
     }
 
     public function afterExecuteRoute() {
+        $returnedValue = $this->dispatcher->getReturnedValue();
+        // if this action return false to prevent render layout
+        if ($returnedValue === false || is_string($returnedValue)) {
+            return false;
+        }
         /* @var $layout Layout */
         $layout = $this->view;
         if (!$layout->isProcessed()) {

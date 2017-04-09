@@ -1,6 +1,7 @@
 <?php
 /**
- * Copyright (c) 2017  MageCon
+ * Copyright (c) 2017 magecon
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -21,36 +22,31 @@
  */
 
 /**
- * Date: 24/03/2017
- * Time: 15:38
+ * @author Nguyen Van Thiep
+ * Date: 09/04/2017
+ * Time: 18:35
  */
 
-namespace Magecon\Cli\Tasks;
+define("DS", DIRECTORY_SEPARATOR);
+define('BASE_PATH', dirname(__DIR__));
+define('APP_PATH', BASE_PATH . '/app');
+define('CORE_PATH', APP_PATH . '/core');
+define('VENDOR_PATH', BASE_PATH . DS . 'vendor');
+define('VIEW_PATH', APP_PATH . DS . 'views' . DS);
 
-use Magecon\Cms\Model\Page;
-use Phalcon\Cli\Task;
-
-/**
- * Automatically take model metadata and update table
- * Command:
- * php run migration:action
- * Class MigrationTask
- * @package Magecon\Cli
- */
-
-class MigrationTask extends Task {
-
-    /**
-     *
-     */
-    public function mainAction() {
-        $block = new Page();
-        /* @var $blockMeta \Phalcon\Mvc\Model\MetaData\Redis */
-        $blockMeta = $block->getModelsMetaData();
-        $metaData = $blockMeta->readMetaData($block);
-    }
-
-    public function updateAction() {
-        echo "in update action\n";
-    }
+final class SERVICES {
+    const EVENTS_MANAGER = 'eventsManager';
+    const VOLT_SHAREED = 'voltShared';
+    const VIEW = 'view';
+    const SESSION = 'session';
+    const MODELS_META_DATA = "modelsMetadata";
+    const CONFIG = 'config';
+    const DB = 'db';
+    const FLASH = 'flash';
+    const DISPATCHER = 'dispatcher';
+    const ROUTER = 'router';
+    const URL = 'url';
+    const REDIS = 'redis';
+    const MODULE_CONFIG_LOADER = 'moduleConfigLoader';
+    const ANNOTATIONS = 'annotations';
 }

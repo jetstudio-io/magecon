@@ -21,36 +21,43 @@
  */
 
 /**
- * Date: 24/03/2017
- * Time: 15:38
+ * @author NGUYEN Van Thiep
+ * Date: 30/03/2017
+ * Time: 14:06
  */
 
-namespace Magecon\Cli\Tasks;
+namespace Magecon\Adminhtml\Controllers;
 
-use Magecon\Cms\Model\Page;
-use Phalcon\Cli\Task;
+use Magecon\Mvc\Layout;
+use Phalcon\Mvc\Controller as PhalconController;
 
-/**
- * Automatically take model metadata and update table
- * Command:
- * php run migration:action
- * Class MigrationTask
- * @package Magecon\Cli
- */
-
-class MigrationTask extends Task {
-
+abstract class ControllerBase extends PhalconController {
     /**
      *
      */
-    public function mainAction() {
-        $block = new Page();
-        /* @var $blockMeta \Phalcon\Mvc\Model\MetaData\Redis */
-        $blockMeta = $block->getModelsMetaData();
-        $metaData = $blockMeta->readMetaData($block);
+    public function initialize() {
+        $this->_initializeLayout();
     }
 
-    public function updateAction() {
-        echo "in update action\n";
+    protected function _initializeLayout() {
+        /* @var $configLoader \Magecon\Core\ModuleConfigLoader */
+        $configLoader = $this->_dependencyInjector->get('configLoader');
+        $configLoader->loadModuleConfig('layout', ['area' => 'backend']);
+
+        $dispatcher = $this->dispatcher;
+        $actionLayoutName = sprintf("%s_%s_%s", $dispatcher->getModuleName(), $dispatcher->getControllerName(), $dispatcher->getActionName());
+        /* @var $layout Layout */
+        $layout = $this->view;
+        $layout->setModule($dispatcher->getModuleName());
+        $layout->addHandleUpdate($actionLayoutName);
+    }
+
+    public function afterExecuteRoute() {
+        /* @var $layout Layout */
+        $layout = $this->view;
+        if (!$layout->isProcessed()) {
+            $layout->renderBlock();
+            $layout->renderLayout();
+        }
     }
 }

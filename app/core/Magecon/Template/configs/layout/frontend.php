@@ -35,7 +35,26 @@ return new \Phalcon\Config([
                     'type' => 'core_template/page_head',
                     'actions' => [
                         'addItem' => [
-                            ['type' => 'skin_css', 'name' => 'test.css'],
+                            //GLOBAL MANDATORY STYLES
+                            ['type' => 'css', 'path' => 'assets/global/plugins/font-awesome/css/font-awesome.min.css'],
+                            ['type' => 'css', 'path' => 'assets/global/plugins/simple-line-icons/simple-line-icons.min.css'],
+                            ['type' => 'css', 'path' => 'assets/global/plugins/bootstrap/css/bootstrap.min.css'],
+                            ['type' => 'css', 'path' => 'assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css'],
+
+                            //GLOBAL MANDATORY STYLES
+                            ['type' => 'css', 'path' => 'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.min.css'],
+                            ['type' => 'css', 'path' => 'assets/global/plugins/morris/morris.css'],
+                            ['type' => 'css', 'path' => 'assets/global/plugins/fullcalendar/fullcalendar.min.css'],
+                            ['type' => 'css', 'path' => 'assets/global/plugins/jqvmap/jqvmap/jqvmap.css'],
+
+                            //THEME GLOBAL STYLES
+                            ['type' => 'css', 'path' => 'assets/global/css/components-md.min.css'],
+                            ['type' => 'css', 'path' => 'assets/global/css/plugins-md.min.css'],
+
+                            //THEME LAYOUT STYLES
+                            ['type' => 'css', 'path' => 'assets/layouts/layout3/css/layout.min.css'],
+                            ['type' => 'css', 'path' => 'assets/layouts/layout3/css/themes/default.min.css'],
+                            ['type' => 'css', 'path' => 'assets/layouts/layout3/css/custom.min.css'],
                         ],
                     ],
                 ],
@@ -55,6 +74,12 @@ return new \Phalcon\Config([
                         'main_content' => [
                             'type' => 'core_template/template',
                             'template' => 'blocks/content.html.volt',
+                            'blocks' => [
+                                'content.top' => [
+                                    'type' => 'core_template/template',
+                                    'template' => 'blocks/content/top.html.volt',
+                                ],
+                            ],
                         ],
                     ],
                 ],
@@ -64,6 +89,53 @@ return new \Phalcon\Config([
                 'footer' => [
                     'type' => 'core_template/template',
                     'template' => 'blocks/footer.html.volt'
+                ],
+                'js_footer' => [
+                    'type' => 'core_template/page_head',
+                    'actions' => [
+                        'addItem' => [
+                            //CORE PLUGINS
+                            ['type' => 'js', 'path' => 'assets/global/plugins/jquery.min.js'],
+                            ['type' => 'js', 'path' => 'assets/global/plugins/bootstrap/js/bootstrap.min.js'],
+                            ['type' => 'js', 'path' => 'assets/global/plugins/js.cookie.min.js'],
+                            ['type' => 'js', 'path' => 'assets/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js'],
+                            ['type' => 'js', 'path' => 'assets/global/plugins/jquery.blockui.min.js'],
+                            ['type' => 'js', 'path' => 'assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js'],
+
+                            //PAGE LEVEL PLUGINS
+                            ['type' => 'js', 'path' => 'assets/global/plugins/moment.min.js'],
+                            ['type' => 'js', 'path' => 'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.min.js'],
+                            ['type' => 'js', 'path' => 'assets/global/plugins/morris/morris.min.js'],
+                            ['type' => 'js', 'path' => 'assets/global/plugins/morris/raphael-min.js'],
+                            ['type' => 'js', 'path' => 'assets/global/plugins/counterup/jquery.waypoints.min.js'],
+                            ['type' => 'js', 'path' => 'assets/global/plugins/counterup/jquery.counterup.min.js'],
+                            ['type' => 'js', 'path' => 'assets/global/plugins/fullcalendar/fullcalendar.min.js'],
+                            ['type' => 'js', 'path' => 'assets/global/plugins/flot/jquery.flot.min.js'],
+                            ['type' => 'js', 'path' => 'assets/global/plugins/flot/jquery.flot.resize.min.js'],
+                            ['type' => 'js', 'path' => 'assets/global/plugins/flot/jquery.flot.categories.min.js'],
+                            ['type' => 'js', 'path' => 'assets/global/plugins/jquery-easypiechart/jquery.easypiechart.min.js'],
+                            ['type' => 'js', 'path' => 'assets/global/plugins/jquery.sparkline.min.js'],
+                            ['type' => 'js', 'path' => 'assets/global/plugins/jqvmap/jqvmap/jquery.vmap.js'],
+                            ['type' => 'js', 'path' => 'assets/global/plugins/jqvmap/jqvmap/maps/jquery.vmap.russia.js'],
+                            ['type' => 'js', 'path' => 'assets/global/plugins/jqvmap/jqvmap/maps/jquery.vmap.world.js'],
+                            ['type' => 'js', 'path' => 'assets/global/plugins/jqvmap/jqvmap/maps/jquery.vmap.europe.js'],
+                            ['type' => 'js', 'path' => 'assets/global/plugins/jqvmap/jqvmap/maps/jquery.vmap.germany.js'],
+                            ['type' => 'js', 'path' => 'assets/global/plugins/jqvmap/jqvmap/maps/jquery.vmap.usa.js'],
+                            ['type' => 'js', 'path' => 'assets/global/plugins/jqvmap/jqvmap/data/jquery.vmap.sampledata.js'],
+
+                            //THEME GLOBAL SCRIPTS
+                            ['type' => 'js', 'path' => 'assets/global/scripts/app.min.js'],
+
+                            //PAGE LEVEL SCRIPTS
+                            ['type' => 'js', 'path' => 'assets/pages/scripts/dashboard.min.js'],
+
+                            //THEME LAYOUT SCRIPTS
+                            ['type' => 'js', 'path' => 'assets/layouts/layout3/scripts/layout.min.js'],
+                            ['type' => 'js', 'path' => 'assets/layouts/layout3/scripts/demo.min.js'],
+                            ['type' => 'js', 'path' => 'assets/layouts/global/scripts/quick-sidebar.min.js'],
+                            ['type' => 'js', 'path' => 'assets/layouts/global/scripts/quick-nav.min.js'],
+                        ],
+                    ],
                 ],
                 'before_body_end' => [
                     'type' => 'core_template/container',

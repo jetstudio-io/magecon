@@ -111,6 +111,13 @@ class Layout extends Simple {
     /**
      * @return string
      */
+    public function getArea(): string {
+        return $this->_area;
+    }
+
+    /**
+     * @return string
+     */
     public function getModule(): string {
         return $this->_module;
     }
@@ -170,6 +177,15 @@ class Layout extends Simple {
                     break;
             }
         }
+        if (isset($blockConfig->actions)) {
+            foreach ($blockConfig->actions as $funcName => $params) {
+                if (method_exists($block, $funcName)) {
+                    foreach ($params as $param) {
+                        $block->{$funcName}($param);
+                    }
+                }
+            }
+        }
 
         return $block;
     }
@@ -202,7 +218,7 @@ class Layout extends Simple {
         $className = $namespace . "\\" . implode("\\", $classPath);
 
         /* @var $blockInstance BlockAbstract */
-        $blockInstance = new $className();
+        $blockInstance = new $className($this);
         $blockInstance->setModule($moduleName);
         $blockInstance->setDI($this->_dependencyInjector);
         return $blockInstance;

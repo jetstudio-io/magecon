@@ -40,7 +40,7 @@ use Magecon\Core\Configuration\Traits\Loader;
  * Class ConfigLoader
  * @package Magecon\Core
  */
-class ConfigLoader {
+class ModuleConfigLoader {
 
     use Loader;
 
