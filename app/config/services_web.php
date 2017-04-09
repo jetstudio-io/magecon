@@ -46,7 +46,7 @@ $di->setShared(SERVICES::REDIS, function () {
  * Starts the session the first time some component requests the session service
  */
 $di->setShared(SERVICES::SESSION, function () use ($di) {
-    $redis = $di->get('redis');
+    $redis = $di->get(SERVICES::REDIS);
     $session = new SessionAdapter(['redis' => $redis]);
     $session->start();
 
@@ -80,7 +80,7 @@ $di->setShared(SERVICES::VIEW, function() {
     $view->setViewsDir(VIEW_PATH);
 
     $view->registerEngines([
-        '.volt'  => 'voltShared',
+        '.volt'  => SERVICES::VOLT_SHAREED,
         '.phtml' => PhpEngine::class
     ]);
 

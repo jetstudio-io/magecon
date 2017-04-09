@@ -41,6 +41,7 @@ class ModuleAutoLoader extends Plugin{
      * @param Application $application
      */
     public function boot(Event $event, Application $application) {
-
+        $requestUri = $_SERVER['REQUEST_URI'];
+        print_r($requestUri);die;
     }
 }

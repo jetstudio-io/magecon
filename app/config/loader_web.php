@@ -2,9 +2,8 @@
 use Magecon\Mvc\Application;
 use Magecon\Mvc\Application\Event\Manager\ModuleAutoLoader;
 
-use Phalcon\Events\Manager as EventManager;
 
-$applicationEventManager = new EventManager();
+$applicationEventManager = $di->get(SERVICES::EVENTS_MANAGER);
 $applicationEventManager->attach('application', new ModuleAutoLoader());
 
 /**

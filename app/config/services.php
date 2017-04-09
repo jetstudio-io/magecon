@@ -93,7 +93,7 @@ $di->setShared(SERVICES::ANNOTATIONS, function() {
  * Model manager service
  */
 
-$di->setShared('modelsManager', function () {
+$di->setShared(SERVICES::MODELS_META_DATA, function () {
     $eventsManager = new EventsManager();
 
     $modelsManager = new ModelsManager();
