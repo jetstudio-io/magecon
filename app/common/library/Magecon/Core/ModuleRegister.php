@@ -59,7 +59,7 @@ class ModuleRegister {
     }
 
     //
-    protected static function _coreRegister() {
+    protected static function _autoLoader() {
 
     }
 }
