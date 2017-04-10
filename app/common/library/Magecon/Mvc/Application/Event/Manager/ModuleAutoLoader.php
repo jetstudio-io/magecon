@@ -41,8 +41,17 @@ class ModuleAutoLoader extends Plugin{
      * @param Application $application
      */
     public function boot(Event $event, Application $application) {
-        $requestUri = $_SERVER['REQUEST_URI'];
 
-        print_r($requestUri);die;
+        if ($this->_isAdmin()) {
+            echo "is admin<br/>";
+        }
+        print_r($_SERVER['REQUEST_URI']);die;
+    }
+
+    protected function _isAdmin() {
+        $config = $this->getDI()->get(\SERVICES::CONFIG);
+        $uri = $_SERVER['REQUEST_URI'];
+        $uriPrefix = str_replace("/", "\/", $config->application->backendUriPrefix);
+        return preg_match("/^" . $uriPrefix . '/', $uri);
     }
 }
