@@ -104,6 +104,18 @@ class Layout extends Simple {
     }
 
     /**
+     * @param string $childName
+     * @return bool|mixed
+     */
+    public function getChildBlock($childName = "") {
+        if (isset($this->_blocks[$childName])) {
+            return $this->_blocks[$childName];
+        } else {
+            return false;
+        }
+    }
+
+    /**
      * Switch layout to backend area
      */
     public function switchToAdmin() {
@@ -144,7 +156,7 @@ class Layout extends Simple {
                         $block = $this->_processBlock($blockConfig);
                         $block->setName($blockName);
                         $this->_blocks[$blockName] = $block;
-                        $this->setVar($blockName, $block);
+                        //$this->setVar($blockName, $block);
                     }
                     break;
             }

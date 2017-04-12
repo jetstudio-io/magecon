@@ -1,5 +1,5 @@
 <?php
-use Magecon\Mvc\Application;
+use Phalcon\Mvc\Application;
 use Magecon\Mvc\Application\Event\Manager\ModuleAutoLoader;
 
 

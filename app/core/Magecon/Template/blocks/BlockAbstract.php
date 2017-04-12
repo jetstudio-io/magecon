@@ -42,7 +42,10 @@ use Phalcon\Mvc\View\Engine\Php as PhpEngine;
  */
 abstract class BlockAbstract {
 
-    const DEFAULT_MODULE = 'core_frontend';
+    const DEFAULT_MODULE = [
+        'frontend' => 'core_frontend',
+        'backend' => 'core_adminhtml'
+    ];
     /**
      * The children block
      * @var array
@@ -249,7 +252,7 @@ abstract class BlockAbstract {
         $this->_prepareLayout();
         $templateFile = $this->_area . DS . $this->_module . DS . $this->_template;
         if (!file_exists(VIEW_PATH . DS . $templateFile)) {
-            $templateFile = $this->_area . DS . self::DEFAULT_MODULE . DS . $this->_template;
+            $templateFile = $this->_area . DS . self::DEFAULT_MODULE[$this->_area] . DS . $this->_template;
             if (!file_exists(VIEW_PATH . DS . $templateFile)) {
                 return "";
             }

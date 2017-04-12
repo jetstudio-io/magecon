@@ -22,42 +22,23 @@
 
 /**
  * @author NGUYEN Van Thiep
- * Date: 30/03/2017
- * Time: 14:06
+ * Date: 12/04/2017
+ * Time: 11:47
  */
 
 namespace Magecon\Adminhtml\Controllers;
 
-use Magecon\Mvc\Layout;
-use Phalcon\Mvc\Controller as PhalconController;
+use Phalcon\Http\Response;
 
-abstract class ControllerBase extends PhalconController {
-    /**
-     *
-     */
-    public function initialize() {
-        $this->_initializeLayout();
+class IndexController extends ControllerBase {
+
+    public function indexAction() {
+
     }
 
-    protected function _initializeLayout() {
-        /* @var $configLoader \Magecon\Core\ModuleConfigLoader */
-        $configLoader = $this->_dependencyInjector->get(\SERVICES::MODULE_CONFIG_LOADER);
-        $configLoader->loadModuleConfig('layout', ['area' => 'backend']);
-
-        $dispatcher = $this->dispatcher;
-        $actionLayoutName = sprintf("%s_%s_%s", $dispatcher->getModuleName(), $dispatcher->getControllerName(), $dispatcher->getActionName());
-        /* @var $layout Layout */
-        $layout = $this->view;
-        $layout->setModule($dispatcher->getModuleName());
-        $layout->addHandleUpdate($actionLayoutName);
-    }
-
-    public function afterExecuteRoute() {
-        /* @var $layout Layout */
-        $layout = $this->view;
-        if (!$layout->isProcessed()) {
-            $layout->renderBlock();
-            $layout->renderLayout();
-        }
+    public function notFoundAction() {
+//        $this->response->setStatusCode(404);
+//        $this->response->setContent("not found page");
+//        return false;
     }
 }

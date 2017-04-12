@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (c) 2017 MageCon
+ * Copyright (c) 2017 magecon
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,19 +20,41 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+
 /**
  * @author Nguyen Van Thiep
- * Date: 25/03/2017
- * Time: 18:32
+ * Date: 12/04/2017
+ * Time: 21:38
  */
 
-return new \Phalcon\Config([
-    'module' => [
-        'name'  => 'core_volt',
-        'className' => 'Magecon\Volt\Module',
-        'modulePath'  => 'core/Magecon/Volt',
-        'version' => '1.0',
-        'areas' => ['frontend', 'backend']
-    ],
+namespace Magecon\Mvc\Dispatcher\Events\Manager;
 
-]);
+use Phalcon\Events\Event,
+    Phalcon\Mvc\User\Plugin,
+    Phalcon\Mvc\Dispatcher;
+use Phalcon\Mvc\Dispatcher\Exception as DispatcherException;
+
+class DispatcherExceptionManager extends Plugin {
+
+    public function beforeException(Event $event, Dispatcher $dispathcer, \Exception $exception) {
+        if ($exception instanceof DispatcherException) {
+            $dispathcer->forward([
+                'module' => 'core_frontend',
+                'controller' => 'index',
+                'action' => 'notFound'
+            ]);
+            return false;
+        }
+
+        switch ($exception->getCode()) {
+            case Dispatcher::EXCEPTION_HANDLER_NOT_FOUND:
+            case Dispatcher::EXCEPTION_ACTION_NOT_FOUND:
+                $dispathcer->forward([
+                    'module' => 'core_frontend',
+                    'controller' => 'index',
+                    'action' => 'notFound'
+                ]);
+                return false;
+        }
+    }
+}

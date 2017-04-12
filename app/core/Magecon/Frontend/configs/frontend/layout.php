@@ -1,6 +1,7 @@
 <?php
 /**
- * Copyright (c) 2017  MageCon
+ * Copyright (c) 2017 MageCon
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -19,26 +20,23 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-
 /**
- * @author NGUYEN Van Thiep
- * Date: 12/04/2017
- * Time: 11:47
+ * @author Nguyen Van Thiep
+ * Date: 07/04/2017
+ * Time: 00:26
  */
 
-namespace Magecon\Frontend\Controllers;
-
-use Phalcon\Http\Response;
-
-class IndexController extends ControllerBase {
-
-    public function indexAction() {
-
-    }
-
-    public function notFoundAction() {
-//        $this->response->setStatusCode(404);
-//        $this->response->setContent("not found page");
-//        return false;
-    }
-}
+return new \Phalcon\Config([
+    'layout' => [
+        'core_frontend_index_notFound' => [
+            'template' => "layout/notFound.html.volt",
+            'blocks' => [
+                'head' => [
+                    'actions' => [
+                        'setTitle' => ["title" => "Not found"]
+                    ],
+                ],
+            ],
+        ]
+    ]
+]);

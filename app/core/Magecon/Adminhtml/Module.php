@@ -5,8 +5,8 @@ use Phalcon\DiInterface;
 use Phalcon\Loader;
 use Phalcon\Mvc\ModuleDefinitionInterface;
 
-class Module implements ModuleDefinitionInterface
-{
+
+class Module implements ModuleDefinitionInterface {
     /**
      * Registers an autoloader related to the module
      *
@@ -21,6 +21,44 @@ class Module implements ModuleDefinitionInterface
         ]);
 
         $loader->register();
+
+        /**
+         * Register router
+         */
+
+        /* @var $router \Phalcon\Mvc\Router */
+        $router = $di->get(\SERVICES::ROUTER);
+        $module = 'core_adminhtml';
+        if (!$router->wasMatched()) {
+            $namespace = 'Magecon\Adminhtml\Controllers';
+            $router->add('/admin/:params', [
+                'namespace' => $namespace,
+                'module' => $module,
+                'controller' => 'index',
+                'action' => 'index',
+                'params' => 1
+            ])->setName($module);
+            $router->add('/admin/:controller/:params', [
+                'namespace' => $namespace,
+                'module' => $module,
+                'controller' => 1,
+                'action' => 'index',
+                'params' => 2
+            ]);
+            $router->add('/admin/:controller/:action/:params', [
+                'namespace' => $namespace,
+                'module' => $module,
+                'controller' => 1,
+                'action' => 2,
+                'params' => 3
+            ]);
+
+            $router->setDefaults([
+                'module' => $module,
+                'controller' => 'index',
+                'action' => 'notFound'
+            ]);
+        }
     }
 
     /**

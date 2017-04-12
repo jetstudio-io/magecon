@@ -69,8 +69,11 @@ $di->set(SERVICES::FLASH, function () {
 * Set the default namespace for dispatcher
 */
 $di->setShared(SERVICES::DISPATCHER, function() {
+    /* @var $eventsManager \Phalcon\Events\Manager */
+    $eventsManager = $this->get(SERVICES::EVENTS_MANAGER);
+    $eventsManager->attach('dispatch', new Magecon\Mvc\Dispatcher\Events\Manager\DispatcherExceptionManager());
     $dispatcher = new Dispatcher();
-    $dispatcher->setDefaultNamespace('Magecon\Frontend\Controllers');
+    $dispatcher->setEventsManager($eventsManager);
     return $dispatcher;
 });
 

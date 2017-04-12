@@ -37,7 +37,7 @@ use Phalcon\Config\Adapter\Yaml as ConfigYaml;
 
 class LayoutLoader implements LoaderInterface {
 
-    const MODULE_LAYOUT_PATH = '/configs/layout/';
+    const MODULE_LAYOUT_PATH = '/configs/';
     use Loader;
     /**
      * Load layout config
@@ -59,7 +59,7 @@ class LayoutLoader implements LoaderInterface {
         }
 
         foreach ($config->{$params['area']}->modules as $name => $module) {
-            $configFile = APP_PATH . DS . $module['modulePath'] . self::MODULE_LAYOUT_PATH . $params['area'] . '.php';
+            $configFile = APP_PATH . DS . $module['modulePath'] . self::MODULE_LAYOUT_PATH . $params['area'] . '/layout.php';
             if (file_exists($configFile)) {
                 $moduleLayout = $this->_getConfig($configFile);
                 $globalLayout->merge($moduleLayout->layout);

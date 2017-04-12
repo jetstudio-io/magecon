@@ -56,6 +56,7 @@ class ModuleAutoLoader extends Plugin{
 
         if ($this->_isAdmin()) {
             $this->_area = 'backend';
+            $this->getDI()->get(\SERVICES::VIEW)->switchToAdmin();
         }
 
         $this->_application = $application;
@@ -95,7 +96,7 @@ class ModuleAutoLoader extends Plugin{
     protected function _autoLoader() {
         // Auto register other module
         foreach ($this->_application->getModules() as $modueName => $module) {
-            /** @var \Phalcon\Mvc\ModuleDefinitionInterface $moduleInstance */
+            /** @var \Magecon\Mvc\ModuleAbstract $moduleInstance */
             $moduleInstance = new $module['className']();
             $moduleInstance->registerAutoloaders($this->_application->getDI());
             $moduleInstance->registerServices($this->_application->getDI());

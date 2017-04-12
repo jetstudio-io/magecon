@@ -47,9 +47,10 @@ try {
 
     $response = $application->handle();
 
-    $response->send();
+    echo $response->getContent();
 
 } catch (\Exception $e) {
+    echo $e->getCode() . '<br>';
     echo $e->getMessage() . '<br>';
     echo '<pre>' . $e->getTraceAsString() . '</pre>';
 }

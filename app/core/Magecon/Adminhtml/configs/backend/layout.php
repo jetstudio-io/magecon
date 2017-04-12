@@ -142,6 +142,16 @@ return new \Phalcon\Config([
                     'type' => 'core_template/container',
                 ],
             ],
+        ],
+        'core_adminhtml_index_notFound' => [
+            'template' => "layout/notFound.html.volt",
+            'blocks' => [
+                'head' => [
+                    'actions' => [
+                        'setTitle' => ["title" => "Not found"]
+                    ],
+                ],
+            ],
         ]
     ]
 ]);

@@ -46,6 +46,16 @@ class Head extends BlockAbstract {
      */
     protected $_items = [];
 
+    protected $_title = "";
+
+    public function setTitle($title = "") {
+        $this->_title = $title;
+    }
+
+    public function getPageTitle() {
+        return $this->_title;
+    }
+
     /**
      * @param array $param
      * @internal param string $type

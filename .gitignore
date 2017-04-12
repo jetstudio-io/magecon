@@ -8,3 +8,5 @@ app/config/config.php
 composer.lock
 vendor
 app/views/*
+public/css/all.css
+public/js/all.js
