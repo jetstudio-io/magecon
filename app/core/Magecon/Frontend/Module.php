@@ -45,6 +45,42 @@ class Module implements ModuleDefinitionInterface
         ]);
 
         $loader->register();
+
+        /**
+         * Register router
+         */
+
+        /* @var $router \Phalcon\Mvc\Router */
+        $router = $di->get(\SERVICES::ROUTER);
+        $module = 'core_frontend';
+        $namespace = 'Magecon\Frontend\Controllers';
+        $router->add('/:params', [
+            'namespace' => $namespace,
+            'module' => $module,
+            'controller' => 'index',
+            'action' => 'index',
+            'params' => 1
+        ])->setName($module);
+        $router->add('/:controller/:params', [
+            'namespace' => $namespace,
+            'module' => $module,
+            'controller' => 1,
+            'action' => 'index',
+            'params' => 2
+        ]);
+        $router->add('/:controller/:action/:params', [
+            'namespace' => $namespace,
+            'module' => $module,
+            'controller' => 1,
+            'action' => 2,
+            'params' => 3
+        ]);
+
+        $router->setDefaults([
+            'module' => $module,
+            'controller' => 'index',
+            'action' => 'notFound'
+        ]);
     }
 
     /**

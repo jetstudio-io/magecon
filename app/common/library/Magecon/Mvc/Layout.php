@@ -54,12 +54,14 @@ class Layout extends Simple {
     protected $_template = "layout/index.html.volt";
 
     public function renderBlock() {
-        $config = $this->_dependencyInjector->get('config');
+        $config = $this->_dependencyInjector->get(\SERVICES::CONFIG);
         $this->_layoutConfig = new Config([]);
 
         foreach ($this->_handles as $handle) {
-            $handleConfig = $config->layout->{$handle};
-            $this->_layoutConfig->merge($handleConfig);
+            if (isset($config->layout->{$handle})) {
+                $handleConfig = $config->layout->{$handle};
+                $this->_layoutConfig->merge($handleConfig);
+            }
         }
         $this->_process();
     }
@@ -204,12 +206,12 @@ class Layout extends Simple {
             $classPath = $type;
         }
         //get real full class name
-        $config = $this->_dependencyInjector->get('config');
+        $config = $this->_dependencyInjector->get(\SERVICES::CONFIG);
         $module = $config->{$this->_area}->modules->{$moduleName};
         if (isset($module->namespace)) {
             $namespace = $module->namespace;
         } else {
-            $namespace = preg_replace('/Module$/', 'Block', $module["class"]);
+            $namespace = preg_replace('/Module$/', 'Block', $module["className"]);
         }
         $classPath = explode("_", $classPath);
         foreach ($classPath as $idx => $path) {

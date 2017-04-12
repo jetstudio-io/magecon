@@ -41,7 +41,7 @@ abstract class ControllerBase extends PhalconController {
 
     protected function _initializeLayout() {
         /* @var $configLoader \Magecon\Core\ModuleConfigLoader */
-        $configLoader = $this->_dependencyInjector->get('configLoader');
+        $configLoader = $this->_dependencyInjector->get(\SERVICES::MODULE_CONFIG_LOADER);
         $configLoader->loadModuleConfig('layout', ['area' => 'frontend']);
 
         $dispatcher = $this->dispatcher;

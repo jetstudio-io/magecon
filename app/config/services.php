@@ -69,7 +69,7 @@ $di->setShared(SERVICES::MODELS_META_DATA, function () {
 /**
  * Looger component
  */
-$di->setShared('logger', function() {
+$di->setShared(SERVICES::LOGGER, function() {
     $config = $this->getConfig();
     if (!file_exists($config->logger->path)) {
         mkdir($config->logger->path, 0777, true);

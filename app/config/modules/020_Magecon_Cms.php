@@ -29,8 +29,8 @@
 return new \Phalcon\Config([
     'module' => [
         'name'  => 'cms',
-        'class' => 'Magecon\Cms\Module',
-        'path'  => 'core/Magecon/Cms',
+        'className' => 'Magecon\Cms\Module',
+        'modulePath'  => 'core/Magecon/Cms',
         'version' => '1.0',
         'areas' => ['cli', 'frontend', 'backend']
     ],

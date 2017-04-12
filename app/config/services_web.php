@@ -12,10 +12,10 @@ use Phalcon\Flash\Direct as Flash;
 /**
  * Registering a router
  */
-$di->setShared(SERVICES::ROUTER, function () {
+$di->setShared(\SERVICES::ROUTER, function () {
     $router = new Router();
 
-    $router->setDefaultModule('frontend');
+//    $router->setDefaultModule('frontend');
 
     return $router;
 });
@@ -70,7 +70,7 @@ $di->set(SERVICES::FLASH, function () {
 */
 $di->setShared(SERVICES::DISPATCHER, function() {
     $dispatcher = new Dispatcher();
-    $dispatcher->setDefaultNamespace('Magecon\Modules\Frontend\Controllers');
+    $dispatcher->setDefaultNamespace('Magecon\Frontend\Controllers');
     return $dispatcher;
 });
 

@@ -30,8 +30,8 @@
 return new \Phalcon\Config([
     'module' => [
         'name'  => 'core_adminhtml',
-        'class' => 'Magecon\Adminhtml\Module',
-        'path'  => 'core/Magecon/Adminhtml',
+        'className' => 'Magecon\Adminhtml\Module',
+        'modulePath'  => 'core/Magecon/Adminhtml',
         'version' => '1.0',
         'areas' => ['backend']
     ],

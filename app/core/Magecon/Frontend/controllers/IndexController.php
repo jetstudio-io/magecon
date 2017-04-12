@@ -1,7 +1,6 @@
 <?php
 /**
- * Copyright (c) 2017 MageCon
- *
+ * Copyright (c) 2017  MageCon
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -22,17 +21,20 @@
  */
 
 /**
- * @author Nguyen Van Thiep
- * Date: 25/03/2017
- * Time: 18:32
+ * @author NGUYEN Van Thiep
+ * Date: 12/04/2017
+ * Time: 11:47
  */
 
-return new \Phalcon\Config([
-    'module' => [
-        'name'  => 'frontend',
-        'class' => 'Magecon\Modules\Frontend\Module',
-        'path'  => 'modules/frontend',
-        'version' => '1.0',
-        'areas' => ['frontend']
-    ],
-]);
+namespace Magecon\Frontend\Controllers;
+
+class IndexController extends ControllerBase {
+
+    public function indexAction() {
+
+    }
+
+    public function notFoundAction() {
+
+    }
+}

@@ -29,8 +29,8 @@
 return new \Phalcon\Config([
     'module' => [
         'name'  => 'cli',
-        'class' => 'Magecon\Cli\Module',
-        'path'  => 'core/Magecon/Cli',
+        'className' => 'Magecon\Cli\Module',
+        'modulePath'  => 'core/Magecon/Cli',
         'version' => '1.0',
         'areas' => ['cli']
     ],

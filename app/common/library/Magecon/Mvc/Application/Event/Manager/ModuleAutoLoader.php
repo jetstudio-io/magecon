@@ -30,10 +30,22 @@
 namespace Magecon\Mvc\Application\Event\Manager;
 
 use Phalcon\Events\Event,
-    Phalcon\Mvc\Application;
-use Phalcon\Mvc\User\Plugin;
+    Phalcon\Mvc\Application,
+    Phalcon\Loader,
+    Phalcon\Mvc\User\Plugin;
 
 class ModuleAutoLoader extends Plugin{
+
+    /**
+     * @var string
+     */
+    protected $_area = 'frontend';
+
+    /**
+     * @var Application
+     */
+    protected $_application = null;
+
     /**
      * Hook to event beforeHandleRequest to load all modules registered
      *
@@ -43,9 +55,16 @@ class ModuleAutoLoader extends Plugin{
     public function boot(Event $event, Application $application) {
 
         if ($this->_isAdmin()) {
-            echo "is admin<br/>";
+            $this->_area = 'backend';
         }
-        print_r($_SERVER['REQUEST_URI']);die;
+
+        $this->_application = $application;
+
+        $this->_registerModule();
+
+        $this->_autoLoader();
+
+//        print_r($_SERVER['REQUEST_URI']);die;
     }
 
     protected function _isAdmin() {
@@ -53,5 +72,33 @@ class ModuleAutoLoader extends Plugin{
         $uri = $_SERVER['REQUEST_URI'];
         $uriPrefix = str_replace("/", "\/", $config->application->backendUriPrefix);
         return preg_match("/^" . $uriPrefix . '/', $uri);
+    }
+
+    protected function _registerModule() {
+        $config = $this->_application->getDI()->get(\SERVICES::CONFIG);
+        $modules = [];
+        $classes = [];
+        foreach ($config->{$this->_area}->modules as $name => $module) {
+            $modules[$module['name']] =[
+                'className'     => $module['className'],
+                'modulePath'      => APP_PATH . DS . $module['modulePath']
+            ];
+            $classes[$module['className']] = $config->application->appDir . $module['modulePath'] . "/Module.php";
+        }
+        $this->_application->registerModules($modules);
+
+        $loader = new Loader();
+        $loader->registerClasses($classes);
+        $loader->register();
+    }
+
+    protected function _autoLoader() {
+        // Auto register other module
+        foreach ($this->_application->getModules() as $modueName => $module) {
+            /** @var \Phalcon\Mvc\ModuleDefinitionInterface $moduleInstance */
+            $moduleInstance = new $module['className']();
+            $moduleInstance->registerAutoloaders($this->_application->getDI());
+            $moduleInstance->registerServices($this->_application->getDI());
+        }
     }
 }

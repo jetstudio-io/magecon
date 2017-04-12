@@ -29,8 +29,8 @@
 return new \Phalcon\Config([
     'module' => [
         'name'  => 'core_volt',
-        'class' => 'Magecon\Volt\Module',
-        'path'  => 'core/Magecon/Volt',
+        'className' => 'Magecon\Volt\Module',
+        'modulePath'  => 'core/Magecon/Volt',
         'version' => '1.0',
         'areas' => ['frontend', 'backend']
     ],

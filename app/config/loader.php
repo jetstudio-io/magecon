@@ -26,4 +26,4 @@ $loader->register();
 /**
  * Load module config
  */
-$di->setShared('', new \Magecon\Core\ModuleConfigLoader($di));
+$di->setShared(SERVICES::MODULE_CONFIG_LOADER, new \Magecon\Core\ModuleConfigLoader($di));

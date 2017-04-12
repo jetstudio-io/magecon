@@ -30,8 +30,8 @@
 return new \Phalcon\Config([
     'module' => [
         'name'  => 'core_frontend',
-        'class' => 'Magecon\Frontend\Module',
-        'path'  => 'core/Magecon/Frontend',
+        'className' => 'Magecon\Frontend\Module',
+        'modulePath'  => 'core/Magecon/Frontend',
         'version' => '1.0',
         'areas' => ['frontend']
     ],

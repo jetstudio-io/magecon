@@ -49,4 +49,5 @@ final class SERVICES {
     const REDIS = 'redis';
     const MODULE_CONFIG_LOADER = 'moduleConfigLoader';
     const ANNOTATIONS = 'annotations';
+    const LOGGER = 'logger';
 }

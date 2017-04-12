@@ -36,8 +36,8 @@ return new \Phalcon\Config([
                     'actions' => [
                         'addItem' => [
                             //GLOBAL MANDATORY STYLES
-                            ['type' => 'css', 'path' => 'assets/global/plugins/font-awesome/css/font-awesome.min.css'],
-                            ['type' => 'css', 'path' => 'assets/global/plugins/simple-line-icons/simple-line-icons.min.css'],
+                            ['type' => 'css', 'path' => 'assets/global/plugins/font-awesome/css/font-awesome.css'],
+                            ['type' => 'css', 'path' => 'assets/global/plugins/simple-line-icons/simple-line-icons.css'],
                             ['type' => 'css', 'path' => 'assets/global/plugins/bootstrap/css/bootstrap.min.css'],
                             ['type' => 'css', 'path' => 'assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css'],
 

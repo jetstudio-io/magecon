@@ -29,8 +29,8 @@
 return new \Phalcon\Config([
     'module' => [
         'name'  => 'core_template',
-        'class' => 'Magecon\Template\Module',
-        'path'  => 'core/Magecon/Template',
+        'className' => 'Magecon\Template\Module',
+        'modulePath'  => 'core/Magecon/Template',
         'version' => '1.0',
         'areas' => ['frontend', 'backend']
     ],

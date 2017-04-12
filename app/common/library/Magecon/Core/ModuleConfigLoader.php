@@ -60,7 +60,7 @@ class ModuleConfigLoader {
         //$cache = $di->get('cache');
 
         /** @var PhalconConfig $globalConfig */
-        $globalConfig = $this->_di->get('config');
+        $globalConfig = $this->_di->get(\SERVICES::CONFIG);
         $configDir = opendir(self::MODULE_CONFIG_PATH);
         while ($file = readdir($configDir)) {
             if (is_file(self::MODULE_CONFIG_PATH . $file) && self::_isConfigFile($file)) {
@@ -79,7 +79,7 @@ class ModuleConfigLoader {
                 $globalConfig->merge($config);
             }
         }
-        $this->_di->setShared('config', $globalConfig);
+        $this->_di->setShared(\SERVICES::CONFIG, $globalConfig);
     }
 
     /**
