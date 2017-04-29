@@ -23,20 +23,25 @@
 /**
  * @author Nguyen Van Thiep
  * Date: 07/04/2017
- * Time: 00:26
+ * Time: 01:39
  */
 
-return new \Phalcon\Config([
-    'layout' => [
-        'core_frontend_index_notFound' => [
-            'template' => "layout/notFound.html.volt",
-            'blocks' => [
-                'head' => [
-                    'actions' => [
-                        'setTitle' => ["title" => "Not found | Frontend"]
-                    ],
-                ],
-            ],
-        ]
-    ]
-]);
+namespace Magecon\Core\Configuration;
+
+use Magecon\Core\Configuration\Traits\Loader;
+use Phalcon\Config;
+use Phalcon\Di\FactoryDefault;
+use Phalcon\Config\Adapter\Ini as ConfigIni;
+use Phalcon\Config\Adapter\Json as ConfigJson;
+use Phalcon\Config\Adapter\Yaml as ConfigYaml;
+
+class MenuLoader extends LoaderAbstract {
+
+    protected $_config = 'menu';
+
+    /**
+     * Area: frontend | backend
+     * @var string
+     */
+    protected $_area = 'backend';
+}

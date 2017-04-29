@@ -27,16 +27,26 @@
  */
 
 return new \Phalcon\Config([
-    'layout' => [
-        'core_frontend_index_notFound' => [
-            'template' => "layout/notFound.html.volt",
-            'blocks' => [
-                'head' => [
-                    'actions' => [
-                        'setTitle' => ["title" => "Not found | Frontend"]
+    'menu' => [
+        'items' => [
+            'cms' => [
+                'title' => 'Cms',
+                'action' => '/cms',
+                'icon' => 'icon-note',
+                'weight' => 10,
+                'items' => [
+                    'cms_page' => [
+                        'title' => 'Manage CMS page',
+                        'action' => '/cms/page',
+                        'weight' => 10,
+                        'items' => [
+                            'cms_page_add' => [
+                                'title' => 'Add new page', 'action' => '/cms/page/new', 'weight' => 10,
+                            ],
+                        ]
                     ],
                 ],
-            ],
+            ]
         ]
     ]
 ]);

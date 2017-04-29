@@ -35,38 +35,13 @@ use Phalcon\Config\Adapter\Ini as ConfigIni;
 use Phalcon\Config\Adapter\Json as ConfigJson;
 use Phalcon\Config\Adapter\Yaml as ConfigYaml;
 
-class LayoutLoader implements LoaderInterface {
+class LayoutLoader extends LoaderAbstract {
 
-    const MODULE_LAYOUT_PATH = '/configs/';
-    use Loader;
+    protected $_config = 'layout';
+
     /**
-     * Load layout config
-     * @param \Phalcon\Di\FactoryDefault $di
-     * @param array                      $params
+     * Area: frontend | backend
+     * @var string
      */
-    public function processConfig(FactoryDefault $di, $params = ['area' => 'frontend']) {
-        // Load layout for frontend by default
-        if (!isset($params['area'])) {
-            $params['area'] = 'frontend';
-        }
-
-        //Load layout config file in all frontend module
-        $config = $di->get(\SERVICES::CONFIG);
-        if (isset($config->layout)) {
-            $globalLayout = $config->layout;
-        } else {
-            $globalLayout = new Config([]);
-        }
-
-        foreach ($config->{$params['area']}->modules as $name => $module) {
-            $configFile = APP_PATH . DS . $module['modulePath'] . self::MODULE_LAYOUT_PATH . $params['area'] . '/layout.php';
-            if (file_exists($configFile)) {
-                $moduleLayout = $this->_getConfig($configFile);
-                $globalLayout->merge($moduleLayout->layout);
-            }
-        }
-        $config->layout = $globalLayout;
-        $di->setShared(\SERVICES::CONFIG, $config);
-    }
-
+    protected $_area = 'frontend';
 }

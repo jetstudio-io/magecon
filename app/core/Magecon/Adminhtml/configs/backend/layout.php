@@ -65,6 +65,11 @@ return new \Phalcon\Config([
                 'header' => [
                     'type' => 'core_template/page_header',
                     'template' => 'blocks/header.html.volt',
+                    'blocks' => [
+                        'main_menu' => [
+                            'type' => 'core_adminhtml/page_mainMenu'
+                        ]
+                    ],
                 ],
                 'left' => [
                     'type' => 'core_template/container',
@@ -144,11 +149,22 @@ return new \Phalcon\Config([
             ],
         ],
         'core_adminhtml_index_notFound' => [
-            'template' => "layout/notFound.html.volt",
+            'template' => "layout/index.html.volt",
             'blocks' => [
                 'head' => [
                     'actions' => [
-                        'setTitle' => ["title" => "Not found"]
+                        'setTitle' => ["title" => "Not found | Backend"],
+                        'addItem' => [
+                            ['type' => 'css', 'path' => 'assets/pages/css/error.min.css'],
+                        ]
+                    ],
+                ],
+                'content' => [
+                    'blocks' => [
+                        'main_content' => [
+                            'type' => 'core_template/template',
+                            'template' => 'blocks/page/notfound.html.volt',
+                        ],
                     ],
                 ],
             ],

@@ -57,6 +57,9 @@ class ModuleAutoLoader extends Plugin{
         if ($this->_isAdmin()) {
             $this->_area = 'backend';
             $this->getDI()->get(\SERVICES::VIEW)->switchToAdmin();
+            $config = $this->getDI()->get(\SERVICES::CONFIG);
+            $config->area = 'backend';
+            $this->getDI()->setShared(\SERVICES::CONFIG, $config);
         }
 
         $this->_application = $application;
@@ -71,8 +74,11 @@ class ModuleAutoLoader extends Plugin{
     protected function _isAdmin() {
         $config = $this->getDI()->get(\SERVICES::CONFIG);
         $uri = $_SERVER['REQUEST_URI'];
+        if ($uri == $config->application->backendUriPrefix) {
+            return true;
+        }
         $uriPrefix = str_replace("/", "\/", $config->application->backendUriPrefix);
-        return preg_match("/^" . $uriPrefix . '/', $uri);
+        return preg_match("/^" . $uriPrefix . '\//', $uri);
     }
 
     protected function _registerModule() {

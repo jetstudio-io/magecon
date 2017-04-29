@@ -51,3 +51,8 @@ final class SERVICES {
     const ANNOTATIONS = 'annotations';
     const LOGGER = 'logger';
 }
+
+final class ROUTER {
+    const ADMIN_DASHBOARD = 'admin_dashboard';
+    const ADMIN_NOTFOUND = 'admin_notfound';
+}

@@ -34,7 +34,7 @@ use Phalcon\Mvc\View\Simple;
 
 class Layout extends Simple {
 
-    const DEFAULT_MODULE = 'core_frontend';
+    const DEFAULT_MODULE = ['frontend' => 'core_frontend', 'backend' => 'core_adminhtml'];
 
     protected $_handles = ['default'];
     protected $_processed = FALSE;
@@ -58,8 +58,8 @@ class Layout extends Simple {
         $this->_layoutConfig = new Config([]);
 
         foreach ($this->_handles as $handle) {
-            if (isset($config->layout->{$handle})) {
-                $handleConfig = $config->layout->{$handle};
+            if (isset($config->{$this->_area}->layout->{$handle})) {
+                $handleConfig = $config->{$this->_area}->layout->{$handle};
                 $this->_layoutConfig->merge($handleConfig);
             }
         }
@@ -86,7 +86,7 @@ class Layout extends Simple {
             if (file_exists($templateFile)) {
                 echo $this->render($this->_area . DS . $this->_module . DS . $this->_template);
             } else {
-                echo $this->render($this->_area . DS . self::DEFAULT_MODULE . DS . $this->_template);
+                echo $this->render($this->_area . DS . self::DEFAULT_MODULE[$this->_area] . DS . $this->_template);
             }
         }
     }

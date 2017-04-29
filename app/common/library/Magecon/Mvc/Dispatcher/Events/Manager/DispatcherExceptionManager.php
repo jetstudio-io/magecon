@@ -37,9 +37,15 @@ use Phalcon\Mvc\Dispatcher\Exception as DispatcherException;
 class DispatcherExceptionManager extends Plugin {
 
     public function beforeException(Event $event, Dispatcher $dispathcer, \Exception $exception) {
+        $config = $dispathcer->getDI()->get(\SERVICES::CONFIG);
+        if (isset($config->area) && $config->area == 'backend') {
+            $module = "core_adminhtml";
+        } else {
+            $module = "core_frontend";
+        }
         if ($exception instanceof DispatcherException) {
             $dispathcer->forward([
-                'module' => 'core_frontend',
+                'module' => $module,
                 'controller' => 'index',
                 'action' => 'notFound'
             ]);
@@ -50,7 +56,7 @@ class DispatcherExceptionManager extends Plugin {
             case Dispatcher::EXCEPTION_HANDLER_NOT_FOUND:
             case Dispatcher::EXCEPTION_ACTION_NOT_FOUND:
                 $dispathcer->forward([
-                    'module' => 'core_frontend',
+                    'module' => $module,
                     'controller' => 'index',
                     'action' => 'notFound'
                 ]);

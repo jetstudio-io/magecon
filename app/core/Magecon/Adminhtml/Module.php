@@ -18,6 +18,7 @@ class Module implements ModuleDefinitionInterface {
 
         $loader->registerNamespaces([
             'Magecon\Adminhtml\Controllers' => __DIR__ . '/controllers/',
+            'Magecon\Adminhtml\Block' => __DIR__ . '/blocks/',
         ]);
 
         $loader->register();
@@ -31,13 +32,19 @@ class Module implements ModuleDefinitionInterface {
         $module = 'core_adminhtml';
         if (!$router->wasMatched()) {
             $namespace = 'Magecon\Adminhtml\Controllers';
+            $router->add('/admin', [
+                'namespace' => $namespace,
+                'module' => $module,
+                'controller' => 'index',
+                'action' => 'index',
+            ])->setName(\ROUTER::ADMIN_DASHBOARD);
             $router->add('/admin/:params', [
                 'namespace' => $namespace,
                 'module' => $module,
                 'controller' => 'index',
                 'action' => 'index',
                 'params' => 1
-            ])->setName($module);
+            ]);
             $router->add('/admin/:controller/:params', [
                 'namespace' => $namespace,
                 'module' => $module,

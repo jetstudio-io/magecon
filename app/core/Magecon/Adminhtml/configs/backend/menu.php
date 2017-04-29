@@ -27,8 +27,14 @@
  */
 
 return new \Phalcon\Config([
-    'backend' => [
-        'menu' => [
+    'menu' => [
+        'items' => [
+            'dashboard' => [
+                'title' => 'Dashboard',
+                'action' => '/',
+                'icon' => 'icon-bar-chart',
+                'weight' => 0,
+            ]
         ]
     ]
 ]);
